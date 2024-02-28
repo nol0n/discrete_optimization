@@ -7,9 +7,13 @@ add_executable(app
 )
 
 add_subdirectory(
-	forward_method
+	lp_methods
+)
+
+target_include_directories(app
+	PRIVATE ./lp_methods
 )
 
 target_link_libraries(app
-	PRIVATE forward_method
+	PRIVATE lp_methods
 )

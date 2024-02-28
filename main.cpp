@@ -1,8 +1,7 @@
 #include <iostream>
-#include <forward_method.hpp>
+#include <lp_methods.hpp>
 
 int main(int argc, char* argv[]) {
-    std::cout << "hello from main\n";
-    forward_method::test_m();
+    std::cout << lp_methods::simplex_method("./test.txt", true);
     return 0;
 }
