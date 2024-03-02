@@ -145,7 +145,7 @@ void lp_methods::two_phase_method(const char path_to_file[], bool debug) {
     // если удлось найти оптимальное решение (вернулась 1 после первой фазы),
     // то мы переходим ко второй фазе
     if (result == -1) {
-        std::cout << "wasn't been able to find a fisable solution\n";
+        std::cout << "haven't been able to find a feasible solution\n";
     }
 
     std::cout << "second phase\n\n"; 
@@ -353,12 +353,12 @@ int32_t lp_methods::find_row(double_t* ratios, int32_t size, int32_t* basic_vars
 }
 
 void lp_methods::find_basis(double_t **matrix, int32_t rows, int32_t columns, int32_t* basic_vars) {
-    int count_1 = 0;
-    int count_0 = 0;
-    int row = 0;
+    int32_t count_1 = 0;
+    int32_t count_0 = 0;
+    int32_t row = 0;
 
-    for (int i = 0; i < columns; i++) {
-        for (int j = 1; j < rows; j++) {
+    for (int32_t i = 0; i < columns; i++) {
+        for (int32_t j = 1; j < rows; j++) {
             if (equals(matrix[j][i], 1)) {
                 count_1++;
                 row = j;
@@ -373,4 +373,90 @@ void lp_methods::find_basis(double_t **matrix, int32_t rows, int32_t columns, in
         count_1 = 0;
         count_0 = 0;
     }
+}
+
+void lp_methods::backpack(const char path_to_file[], bool debug) {
+    int32_t capacity = 0;
+    int32_t items = 0;
+    int32_t *weights;
+    int32_t *prices;
+    int32_t **m;
+    int32_t *ans;
+
+    // чтение условия из файла
+    std::fstream task(path_to_file);
+
+    if (!task) {
+        std::cerr << "can't open file\n\n";
+    } else {
+        std::cout << "file opened\n\n";
+    }
+
+    // установка размерности целевой функции и кол-ва ограничений
+    task >> items >> capacity;
+
+    // запись условий
+    prices = new int32_t[items]();
+    for (int32_t i = 0; i < items; i++) {
+        task >> prices[i];
+    }
+    
+    weights = new int32_t[items]();
+    for (int32_t i = 0; i < items; i++) {
+        task >> weights[i];
+    }
+
+    // вектор с ответом
+    ans = new int32_t[items]();
+
+    // запись таблицы
+    m = new int32_t*[items + 1]();
+    for (int32_t i = 0; i < items + 1; i++) {
+        m[i] = new int32_t[capacity + 1]();
+    }
+
+    for (int32_t i = 1; i <= items; i++) {
+        for (int32_t j = 1; j <= capacity; j++) {
+            if (j < weights[i - 1]) {
+                m[i][j] = m[i - 1][j];
+                continue;
+            }
+
+            if ((m[i][j - weights[i - 1]] + prices[i - 1]) > m[i - 1][j]) {
+                m[i][j] = m[i][j - weights[i - 1]] + prices[i - 1];
+            } else {
+                m[i][j] = m[i - 1][j];
+            }
+        }
+    }
+
+    // печать матрицы
+    if (debug) {
+        for (int32_t i = 1; i <= items; i++) {
+            for (int32_t j = 1; j <= capacity; j++) {
+                std::cout << m[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+    
+    // определение предметов
+    int32_t cur_item = items;
+    int32_t cur_capacity = capacity;
+    while (cur_capacity != 0) {
+        while (m[cur_item][cur_capacity] == m[cur_item - 1][cur_capacity]) {
+            cur_item -= 1;
+            if (m[cur_item][cur_capacity] == 0) break;
+        }
+        ans[cur_item - 1]++;
+        cur_capacity -= weights[cur_item - 1];
+    }
+
+    // печать ответа
+    for (int32_t i = 0; i < items; i++) {
+        std::cout << ans[i] << "*x" << i + 1 << " ";
+    }
+    std::cout << std::endl << m[items][capacity] << std::endl << std::endl;
+
 }
