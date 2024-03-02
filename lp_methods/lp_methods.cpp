@@ -375,7 +375,7 @@ void lp_methods::find_basis(double_t **matrix, int32_t rows, int32_t columns, in
     }
 }
 
-void lp_methods::backpack(const char path_to_file[], bool debug) {
+void lp_methods::backpack_max(const char path_to_file[], bool debug) {
     int32_t capacity = 0;
     int32_t items = 0;
     int32_t *weights;

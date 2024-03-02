@@ -5,8 +5,7 @@
 int main(int argc, char* argv[]) {
     // lp_methods::two_phase_method("./test.txt", true);
     // lp_methods::simplex_method("./test.txt", true);
-
-    lp_methods::backpack("./backpack.txt", true);
+    lp_methods::backpack_max("./backpack.txt", true);
 
     return 0;
 }
