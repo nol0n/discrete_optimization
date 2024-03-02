@@ -3,7 +3,7 @@
 #include <cstring>
 #include <lp_methods.hpp>
 
-double_t lp_methods::simplex_method(const char path_to_file[], bool debug) {
+void lp_methods::simplex_method(const char path_to_file[], bool debug) {
     int32_t variables  = 0;
     int32_t constraints = 0;
     double_t **matrix;
@@ -12,10 +12,9 @@ double_t lp_methods::simplex_method(const char path_to_file[], bool debug) {
     std::fstream task(path_to_file);
 
     if (!task) {
-        std::cerr << "can't open file\n";
-        return 0.0;
+        std::cerr << "can't open file\n\n";
     } else {
-        std::cout << "file opened\n";
+        std::cout << "file opened\n\n";
     }
 
     // установка размерности целевой функции и кол-ва ограничений
@@ -42,7 +41,6 @@ double_t lp_methods::simplex_method(const char path_to_file[], bool debug) {
 
     // печать полученных условий
     if (debug) {
-        std::cout << variables << " " << constraints << std::endl;
         for (int32_t i = 0; i < constraints + 1; i++) {
             for (int32_t j = 0; j < variables + constraints + 1; j++) {
                 std::cout << matrix[i][j] << "\t";
@@ -53,19 +51,138 @@ double_t lp_methods::simplex_method(const char path_to_file[], bool debug) {
     }
 
     // применение симплекс метода
-    int32_t result = matrix_transfrom(matrix, constraints, variables, true);
+    int32_t result = matrix_transfrom(matrix, constraints, constraints, variables, true);
 
     switch (result) {
         case 1:
-            std::cout << "OK\n";
+            std::cout << "found optimal solution: " << -matrix[0][variables + constraints] << "\n";
             break;
         case -1:
-            std::cout << "not OK\n";
-            return 0.0;
+            std::cout << "function doesn't have optimal solution\n";
             break;
     }
 
-    return -matrix[0][variables + constraints];
+    for (int32_t i = 0; i < constraints + 1; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+}
+
+void lp_methods::two_phase_method(const char path_to_file[], bool debug) {
+    int32_t variables  = 0;
+    int32_t constraints = 0;
+    double_t **matrix;
+
+    uint32_t img_vars = 0;
+    double_t* func_coeff;
+    char* sign = new char[2]();
+
+    // чтение условия из файла
+    std::fstream task(path_to_file);
+
+    if (!task) {
+        std::cerr << "can't open file\n\n";
+    } else {
+        std::cout << "file opened\n\n";
+    }
+
+    // установка размерности целевой функции и кол-ва ограничений
+    task >> variables >> constraints;
+
+    // запись условия задачи
+    matrix = new double*[constraints + 1];
+    func_coeff = new double[constraints + 1];
+
+    // в матрице выделяются столбцы для искусственых переменных
+    for (int32_t i = 0; i < constraints + 1; i++) {
+        matrix[i] = new double[variables + constraints * 2 + 1]();
+    }
+
+    // чтение целевой функции
+    for (int32_t i = 0; i < variables; i++) {
+        task >> func_coeff[i];
+    }
+
+    // заипсь ограничений в таблцу
+    for (int32_t i = 1; i < constraints + 1; i++) {
+        for (int32_t j = 0; j < variables; j++) {
+            task >> matrix[i][j];
+        }
+
+        // проверка знака, если будет >=, то
+        // мы вводит искусственнуб переменную
+        // и тут мы сразу преобразовываем таблицу
+        task >> sign;
+        task >> matrix[i][variables + constraints * 2]; 
+        if (sign[0] == '>') {
+            matrix[i][variables + i - 1] = -1.0;
+            for (int32_t k = 0; k < variables + constraints * 2 + 1; k++) {
+                matrix[0][k] += matrix[i][k];
+            }
+            matrix[i][variables + constraints + i - 1] = 1.0;
+            img_vars++;
+        } else {
+            matrix[i][variables + i - 1] = 1.0;
+        }
+    }
+
+    std::cout << "first phase\n\n"; 
+
+    // печать полученных условий
+    if (debug) {
+        for (int32_t i = 0; i < constraints + 1; i++) {
+            for (int32_t j = 0; j < variables + constraints * 2 + 1; j++) {
+                std::cout << matrix[i][j] << "\t";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    // первая фаза
+    int32_t result = matrix_transfrom(matrix, constraints, constraints * 2, variables, true);
+
+    // если удлось найти оптимальное решение (вернулась 1 после первой фазы),
+    // то мы переходим ко второй фазе
+    if (result == -1) {
+        std::cout << "wasn't been able to find a fisable solution\n";
+    }
+
+    std::cout << "second phase\n\n"; 
+
+    // заменяем целевую функцию и запускаем вторую фазу
+    for (int i = 0; i < variables; i++) {
+        matrix[0][i] = func_coeff[i];
+    }
+    for (int i = variables; i < variables + constraints * 2 + 1; i++) {
+        matrix[0][i] = 0.0;
+    }
+
+    // применение симплекс метода для второй фазы
+    for (int i = 0; i < constraints + 1; i++) {
+        matrix[i][variables + constraints] = matrix[i][variables + constraints * 2];
+    }
+
+    if (debug) {
+        for (int32_t i = 0; i < constraints + 1; i++) {
+            for (int32_t j = 0; j < variables + constraints + 1; j++) {
+                std::cout << matrix[i][j] << "\t";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    result = matrix_transfrom(matrix, constraints, constraints, variables, true);
+
+    switch (result) {
+        case 1:
+            std::cout << "found optimal solution: " << -matrix[0][variables + constraints] << "\n";
+            break;
+        case -1:
+            std::cout << "function doesn't have optimal solution\n";
+            break;
+    }
 
     for (int32_t i = 0; i < constraints + 1; i++) {
         delete[] matrix[i];
@@ -79,16 +196,15 @@ double_t lp_methods::simplex_method(const char path_to_file[], bool debug) {
 /// @param variables 
 /// @param test печать промежуточных этапов
 /// @return "1" - найден оптимальный план "-1" - оптимального плана не сущесвует 
-int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int32_t variables, bool debug) {    
-    int32_t *basic_vars = new int32_t[constraints]();
+int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t rows,  int32_t constraints, int32_t variables, bool debug) {    
+    int32_t *basic_vars = new int32_t[rows]();
     double_t *ratios = new double_t[constraints]();
 
-    for (int32_t i = 0; i < constraints; i++) {
-        basic_vars[i] = variables + 1 + i;
-    }
+    find_basis(matrix, rows + 1, variables + constraints, basic_vars);
 
     int32_t column = -1;
     int32_t row = -1;
+    int32_t prev_column = 0;
     while (true) {
         // выбор столбца
         for (int32_t i = 0; i < variables + constraints; i++) {
@@ -99,12 +215,37 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
         }
         // не найдено положительного элемента в строке целевой функции
         // алгоритм завершен, найден оптимальный план
-        if (column == -1) return 1;
+        if (column == -1) 
+        {
+            // если базисная переменная присутствует в целевой строке
+            // она убиратеся из строки путем преобразований над таблицей
+            for (int i = 0; i < rows; i++) {
+                if (!equals(matrix[0][basic_vars[i]], 0.0)) {
+                    double_t ratio = matrix[0][basic_vars[i]];
+                    for (int j = 0; j < variables + constraints + 1; j++) {
+                        matrix[0][j] -= matrix[i + 1][j] * ratio;
+                    }
+
+                    // печать этапов
+                    if (debug) {
+                        std::cout << "removed basic variable from function:\n";
+                        for (int32_t i = 0; i < rows + 1; i++) {
+                            for (int32_t j = 0; j < variables + constraints + 1; j++) {
+                                std::cout << matrix[i][j] << "\t";
+                            }
+                            std::cout << std::endl;
+                        }
+                        std::cout << std::endl;
+                    }
+                }
+            }
+            return 1;
+        }
 
         // выбор строки
 
         // вычисление отношений
-        for (int32_t i = 1; i < constraints + 1; i++) {
+        for (int32_t i = 1; i < rows + 1; i++) {
             // исключаем деление на ноль
             if (equals(matrix[i][column], 0.0)) {
                 ratios[i - 1] = -1.0;
@@ -124,7 +265,7 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
             ratios[i - 1] = matrix[i][variables + constraints] / matrix[i][column];
         }
 
-        row = find_row(ratios, constraints, basic_vars);
+        row = find_row(ratios, rows, basic_vars);
         // если не нашлось отношений больше или равных нулю 
         // алгоритм заверешн, определно, что оптимального плана
         // не сущесвтует
@@ -132,7 +273,7 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
         else row++;
 
         // замена базисной переменной
-        basic_vars[row] = column;
+        basic_vars[row - 1] = column;
 
         // деление выбранной строки на ведущий элемент
         double_t lead_element = matrix[row][column];
@@ -141,7 +282,7 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
         }
 
         // преобразование строк
-        for (int32_t i = 0; i < constraints + 1; i++) {
+        for (int32_t i = 0; i < rows + 1; i++) {
             if (i == row) continue;
 
             double_t div_coeff = matrix[i][column];
@@ -152,13 +293,13 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
 
         // печать этапов
         if (debug) {
-            for (int32_t i = 0; i < constraints; i++) {
+            std::cout << "relations: \t";
+            for (int32_t i = 0; i < rows; i++) {
                 std::cout << ratios[i] << "\t";
             }
             std::cout << "\n\n";
 
-            std::cout << variables << " " << constraints << std::endl;
-            for (int32_t i = 0; i < constraints + 1; i++) {
+            for (int32_t i = 0; i < rows + 1; i++) {
                 for (int32_t j = 0; j < variables + constraints + 1; j++) {
                     std::cout << matrix[i][j] << "\t";
                 }
@@ -168,6 +309,7 @@ int32_t lp_methods::matrix_transfrom(double_t **matrix, int32_t constraints, int
         }
 
         memset(ratios, 0, sizeof(double_t) * constraints);
+        prev_column = column;
         column = -1;
         row = -1;    
     }
@@ -208,4 +350,27 @@ int32_t lp_methods::find_row(double_t* ratios, int32_t size, int32_t* basic_vars
     }
 
     return min_row;
+}
+
+void lp_methods::find_basis(double_t **matrix, int32_t rows, int32_t columns, int32_t* basic_vars) {
+    int count_1 = 0;
+    int count_0 = 0;
+    int row = 0;
+
+    for (int i = 0; i < columns; i++) {
+        for (int j = 1; j < rows; j++) {
+            if (equals(matrix[j][i], 1)) {
+                count_1++;
+                row = j;
+            }
+            else if (equals(matrix[j][i], 0)) {
+                count_0++;
+            }
+        }
+        if (count_1 == 1 && count_0 == rows - 2) {
+            basic_vars[row - 1] = i;
+        }
+        count_1 = 0;
+        count_0 = 0;
+    }
 }
