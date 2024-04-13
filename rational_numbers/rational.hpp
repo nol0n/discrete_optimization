@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <string>
 
@@ -21,10 +22,15 @@ namespace nol0n
 		rational(const int &a);
 		rational(const rational &num);
 
-		rational operator+(const rational &num);
-		rational operator-(const rational &num);
-		rational operator*(const rational &num);
-		rational operator/(const rational &num);
+		rational operator+(const rational &num) const;
+		rational operator-(const rational &num) const;
+		rational operator*(const rational &num) const;
+		rational operator/(const rational &num) const;
+
+		rational& operator+=(const rational &num);
+		rational& operator-=(const rational &num);
+		rational& operator*=(const rational &num);
+		rational& operator/=(const rational &num);
 
 		bool operator==(const rational &num) const;
 		bool operator!=(const rational &num) const;

@@ -63,7 +63,7 @@ void lp_methods::simplex_method(const char path_to_file[], bool debug)
     }
 
     // применение симплекс метода
-    int32_t result = matrix_transfrom(matrix, constraints, constraints, variables, true);
+    int32_t result = matrix_transfrom(matrix, constraints, constraints, variables, debug);
 
     switch (result)
     {
@@ -228,12 +228,12 @@ void lp_methods::two_phase_method(const char path_to_file[], bool debug)
     delete[] matrix;
 }
 
-/// @brief применение симплекс метода к задаче, которая приведена к конанической форме
+/// @brief applying simplex method for canonical table
 /// @param matrix
-/// @param amount of constraints
-/// @param amount of variables
-/// @param test печать промежуточных этапов
-/// @return "1" - найден оптимальный план "-1" - оптимального плана не сущесвует
+/// @param constraints number of
+/// @param variables number of 
+/// @param test show steps
+/// @return "1" - found optimal plan "-1" - optimal plan doesn't exist
 int32_t lp_methods::matrix_transfrom(double **matrix, int32_t rows, int32_t constraints, int32_t variables, bool debug)
 {
     int32_t *basic_vars = new int32_t[rows]();

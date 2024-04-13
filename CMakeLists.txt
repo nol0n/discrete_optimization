@@ -14,15 +14,25 @@ add_subdirectory(
 )
 
 add_subdirectory(
+	lp_algs
+)
+
+add_subdirectory(
 	rational_numbers
+)
+
+add_subdirectory(
+	table
 )
 
 target_include_directories(app PRIVATE 
-	./lp_methods
+	./lp_algs
 	./rational_numbers
+	./lp_methods
 )
 
 target_link_libraries(app PRIVATE 
-	lp_methods
+	lp_algs
 	rational_numbers
+	lp_methods
 )

@@ -7,8 +7,8 @@ add_library(rational_numbers
 	rational.hpp
 )
 
-target_include_directories(rational_numbers
-	PRIVATE /
+target_include_directories(rational_numbers PRIVATE 
+	./
 )
 
 add_executable(rational_test
@@ -16,7 +16,7 @@ add_executable(rational_test
 )
 
 target_include_directories(rational_test PRIVATE 
-	/
+	./
 )
 
 target_link_libraries(rational_test PRIVATE 

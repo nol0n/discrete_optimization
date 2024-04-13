@@ -8,5 +8,5 @@ lp_methods.hpp
 )
 
 target_include_directories(lp_methods PRIVATE 
-	/
+	./
 )

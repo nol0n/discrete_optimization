@@ -67,7 +67,7 @@ bool rational::isInt(std::string &str) {
 	return is_number;
 }
 
-rational rational::operator+(rational const& num) {
+rational rational::operator+(rational const& num) const {
 	rational res;
 	if (num.denominator == denominator) {
 		res.numerator = num.numerator + numerator;
@@ -81,10 +81,10 @@ rational rational::operator+(rational const& num) {
 	return res;
 }
 
-rational rational::operator-(rational const& num) {
+rational rational::operator-(rational const& num) const {
 	rational res;
 	if (num.denominator == denominator) {
-		res.numerator = num.numerator - numerator;
+		res.numerator = numerator - num.numerator;
 		res.denominator = denominator;
 	}
 	else {
@@ -95,7 +95,7 @@ rational rational::operator-(rational const& num) {
 	return res;
 }
 
-rational rational::operator*(rational const& num) {
+rational rational::operator*(rational const& num) const {
 	rational res;
 	res.numerator = numerator * num.numerator;
 	res.denominator = denominator * num.denominator;
@@ -103,13 +103,64 @@ rational rational::operator*(rational const& num) {
 	return res;
 };
 
-rational rational::operator/(rational const& num) {
+rational rational::operator/(rational const& num) const {
 	rational res;
 	if (num.numerator != 0) {
 		res.numerator = numerator * num.denominator;
 		res.denominator = denominator * num.numerator;
 		res.reduction();
 		return res;
+	}
+	else {
+		throw "rational.cpp::rational::rational::operator/(rational const& num) num numinator must be not equal 0\n";
+	}
+};
+
+rational& rational::operator+=(rational const& num) {
+	if (num.denominator == denominator) {
+		numerator += num.numerator;
+	}
+	else {
+		numerator = denominator * num.numerator + num.denominator * numerator;
+		denominator *= num.denominator;
+	}
+	
+	reduction();
+	
+	return *this;
+}
+
+rational& rational::operator-=(rational const& num) {
+	if (num.denominator == denominator) {
+		numerator -= num.numerator;
+	}
+	else {
+		numerator = numerator * num.denominator - num.numerator * denominator;
+		denominator *= num.denominator;
+	}
+	
+	reduction();
+	
+	return *this;
+}
+
+rational& rational::operator*=(rational const& num) {
+	numerator *= num.numerator;
+	denominator *= num.denominator;
+	
+	reduction();
+	
+	return *this;
+};
+
+rational& rational::operator/=(rational const& num) {
+	if (num.numerator != 0) {
+		numerator *= num.denominator;
+		denominator *= num.numerator;
+		
+		reduction();
+		
+		return *this;
 	}
 	else {
 		throw "rational.cpp::rational::rational::operator/(rational const& num) num numinator must be not equal 0\n";
