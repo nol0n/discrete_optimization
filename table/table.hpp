@@ -16,7 +16,10 @@ public:
     Table(size_t, size_t);
     ~Table();
 
-    int readFileColumn(const char[], bool = false);
+    size_t getRows();
+    size_t getColumns();
+
+    int readFile(const char[], bool = false);
 
     void columnZeroing(size_t, size_t);
     void rowZeroing(size_t, size_t);

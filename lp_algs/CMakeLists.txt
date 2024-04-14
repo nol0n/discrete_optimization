@@ -8,4 +8,10 @@ add_library(lp_algs
 )
 target_include_directories(lp_algs PRIVATE 
 	./
+	./../rational_numbers
+	./../table
+)
+target_link_libraries(lp_algs PRIVATE
+	rational_numbers
+	table
 )

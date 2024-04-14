@@ -17,7 +17,15 @@ Table::~Table() {
     delete[] data;
 }
 
-int Table::readFileColumn(const char path_to_file[], bool debug) {
+size_t Table::getRows() {
+    return _rows;
+}
+
+size_t Table::getColumns() {
+    return _columns;
+}
+
+int Table::readFile(const char path_to_file[], bool debug) {
     // чтение условия из файла
     int variables = 0;
     int constraints = 0;
@@ -61,6 +69,8 @@ int Table::readFileColumn(const char path_to_file[], bool debug) {
         task >> (*this)(i, 0);
         (*this)(i, 0) *= -1;
     }
+
+    if (debug) std::cout << (*this);
 
     return 0;
 }

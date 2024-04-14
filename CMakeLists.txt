@@ -24,3 +24,7 @@ add_subdirectory(
 add_subdirectory(
 	table
 )
+
+add_subdirectory(
+	graph
+)

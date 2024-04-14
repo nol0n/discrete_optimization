@@ -7,7 +7,7 @@
 int main(int argc, char* argv[]) 
 {
     nol0n::Table table{};
-    table.readFileColumn("./test.txt");
+    table.readFile("./test.txt");
 
     std::cout << table << "\n\n";
 
