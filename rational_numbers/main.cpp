@@ -49,7 +49,7 @@ void randomTest() {
         ratRes1 = num1 + num2;
         ratRes2 += num2;
         res = (double(n1) / double(d1)) + (double(n2) / double(d2));
-        if (ratRes2 != ratRes1) {
+        if (true) {
             std::cout << num1 << " + " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
         }
         break;
@@ -57,7 +57,7 @@ void randomTest() {
         ratRes1 = num1 - num2;
         ratRes2 -= num2;
         res = (double(n1) / double(d1)) - (double(n2) / double(d2));
-        if (ratRes2 != ratRes1) {
+        if (true) {
             std::cout << num1 << " - " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
         }
         break;
@@ -65,7 +65,7 @@ void randomTest() {
         ratRes1 = num1 * num2;
         ratRes2 *= num2;
         res = (double(n1) / double(d1)) * (double(n2) / double(d2));
-        if (ratRes2 != ratRes1) {    
+        if (true) {    
             std::cout << num1 << " * " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
         }
         break;
@@ -73,7 +73,7 @@ void randomTest() {
         ratRes1 = num1 / num2;
         ratRes2 /= num2;
         res = (double(n1) / double(d1)) / (double(n2) / double(d2));
-        if (ratRes2 != ratRes1) {
+        if (true) {
             std::cout << num1 << " / " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
         }
         break;
@@ -81,19 +81,6 @@ void randomTest() {
 }
 
 int main(int argc, char* argv[]) {
-    // std::vector<nol0n::rational> numbers;
-
-    // numbers.reserve(100);
-    // for (int i = 0; i < 100; i++) {
-    //     try {
-    //         nol0n::rational tmp(getInt(), getPositiveInt());            
-    //         std::cout << tmp << "\n";      
-    //         numbers.emplace_back(tmp);
-    //     } catch (const char* err) {
-    //         std::cout << err;
-    //     }
-    // }
-
     for (int i = 0; i < 1000; i++) {
         try {
             randomTest();

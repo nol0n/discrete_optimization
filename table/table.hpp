@@ -12,15 +12,19 @@ private:
     size_t _rows;
     size_t _columns;
 public:
+    Table();
     Table(size_t, size_t);
     ~Table();
 
-    void makeVarBasicInColumn(size_t row, size_t column);
+    int readFileColumn(const char[], bool = false);
 
-    rational& operator() (size_t row, size_t column);
-    const rational operator() (size_t row, size_t column) const;
+    void columnZeroing(size_t, size_t);
+    void rowZeroing(size_t, size_t);
 
-    friend std::ostream& operator<<(std::ostream& outs, const Table& table);
+    rational& operator() (size_t, size_t);
+    const rational operator() (size_t, size_t) const;
+
+    friend std::ostream& operator<<(std::ostream&, const Table&);
 };
 
 } // namespace nol0n

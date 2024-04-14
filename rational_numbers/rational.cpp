@@ -218,46 +218,20 @@ rational::operator double() const {
 }
 
 std::istream& operator>>(std::istream& ins, rational& num) {
-	std::string a = "a";
-	int entered = 0;
-	while (!entered) {
-		std::cout << "enter numerator: ";
-		ins >> a;
-		if (!num.isInt(a)) {
-			std::cout << "enter natural number\n";
-			continue;
-		}
-		try {
-			num.numerator = std::stoi(a);
-			entered = 1;
-		}
-		catch (std::out_of_range const&) {
-			std::cout << "value must be in range from -2,147,483,648 to 2,147,483,647\n";
-		}
+	std::string a{};
+	
+	ins >> a;
+	if (!num.isInt(a)) {
+		throw("enter natural number\n");
 	}
-
-	entered = 0;
-	num.denominator = 0;
-
-	while (!entered) {
-		std::cout << "enter denominator: ";
-		ins >> a;
-		if (!num.isInt(a)) {
-			std::cout << "enter natural number\n";
-			continue;
-		}
-		try {
-			num.denominator = std::stoi(a);
-			if (num.denominator < 1) throw "rational.cpp::std::istream& operator>>(std::istream& inputStream, rational& num) value must be a natural number\n";
-			entered = 1;
-		}
-		catch (std::out_of_range const&) {
-			std::cout << "value must be in range from 1 to 2,147,483,647\n";
-		}
-		catch (const char* exception) {
-			std::cout << exception;
-		}
+	try {
+		num.numerator = std::stoi(a);
 	}
+	catch (std::out_of_range const&) {
+		throw("value must be in range from -2,147,483,648 to 2,147,483,647\n");
+	}
+	num.denominator = 1;
+
 	num.reduction();
 	return ins;
 }

@@ -12,37 +12,37 @@ namespace nol0n
 		int numerator;
 		int denominator;
 
-		int GreatestCommonDivisor(int a, int b);
+		int GreatestCommonDivisor(int, int);
 		void reduction();
-		static bool isInt(std::string &str);
+		static bool isInt(std::string&);
 
 	public:
 		rational();
-		rational(const int &a, const int &b);
-		rational(const int &a);
+		rational(const int&, const int&);
+		rational(const int&);
 		rational(const rational &num);
 
-		rational operator+(const rational &num) const;
-		rational operator-(const rational &num) const;
-		rational operator*(const rational &num) const;
-		rational operator/(const rational &num) const;
+		rational operator+(const rational&) const;
+		rational operator-(const rational&) const;
+		rational operator*(const rational&) const;
+		rational operator/(const rational&) const;
 
-		rational& operator+=(const rational &num);
-		rational& operator-=(const rational &num);
-		rational& operator*=(const rational &num);
-		rational& operator/=(const rational &num);
+		rational& operator+=(const rational&);
+		rational& operator-=(const rational&);
+		rational& operator*=(const rational&);
+		rational& operator/=(const rational&);
 
-		bool operator==(const rational &num) const;
-		bool operator!=(const rational &num) const;
-		bool operator>=(const rational &num) const;
-		bool operator<=(const rational &num) const;
-		bool operator>(const rational &num) const;
-		bool operator<(const rational &num) const;
+		bool operator==(const rational&) const;
+		bool operator!=(const rational&) const;
+		bool operator>=(const rational&) const;
+		bool operator<=(const rational&) const;
+		bool operator>(const rational&) const;
+		bool operator<(const rational&) const;
 
 		operator double() const;
 
-		friend std::istream &operator>>(std::istream &ins, rational &num);
-		friend std::ostream &operator<<(std::ostream &outs, const rational &num);
+		friend std::istream &operator>>(std::istream&, rational&);
+		friend std::ostream &operator<<(std::ostream&, const rational&);
 	};
 
 } // namespace nol0n
