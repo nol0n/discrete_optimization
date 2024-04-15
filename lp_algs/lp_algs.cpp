@@ -42,7 +42,7 @@ namespace simplexMethod
         }
     }
 
-} // namespace simplexNethod
+} // namespace simplexMethod
 
 namespace cuttingPlane
 {
