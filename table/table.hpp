@@ -18,8 +18,11 @@ namespace nol0n
         Table(size_t, size_t);
         ~Table();
 
-        size_t getRows();
-        size_t getColumns();
+        size_t getRows() const;
+        size_t getColumns() const;
+
+        void addBottomRow();
+        void removeBottomRow();
 
         int readFile(const char[], bool = false);
 

@@ -17,16 +17,18 @@ int main(int argc, char *argv[])
     nol0n::Table table;
     table.readFile("./test.txt");
 
-    if(nol0n::lpalgs::simplexMethod(table, true)) 
+    try
     {
-        std::cout << "found solution\n";
+        nol0n::lpalgs::simplexMethod(table, true);
+        std::cout << "--------- Gomery Cutting Plane ----------\n\n\n";
+        nol0n::lpalgs::cuttingPlane(table, true);
     }
-    else
+    catch (const char *err)
     {
-        std::cout << "optimal solution doesn't exist\n";
+        std::cerr << err;
     }
 
-    
+    std::cout << table << "\n\n";
 
     return 0;
 }

@@ -136,7 +136,7 @@ namespace nol0n
 			res.numerator = numerator * num.denominator;
 			res.denominator = denominator * num.numerator;
 
-			if (denominator < 0)
+			if (res.denominator < 0)
 			{
 				res.numerator *= -1;
 				res.denominator *= -1;
@@ -284,6 +284,46 @@ namespace nol0n
 		{
 			return false;
 		}
+	}
+
+	bool rational::isInteger() const
+	{
+		return denominator == 1;
+	}
+
+	rational rational::absValue() const
+	{
+		rational result = (*this);
+
+		if (result < rational(0)) 
+		{
+			result *= -1;
+		}
+
+		return result;
+	}
+
+	rational rational::floor() const 
+	{
+		rational result;
+
+		if ((*this) < rational(0) && !(*this).isInteger()) 
+		{
+			result = rational((this->numerator - this->denominator) / this->denominator);
+		}
+		else 
+		{
+			result = rational(this->numerator / this->denominator);
+		}
+
+		return result;
+	}
+
+	rational rational::fractional() const
+	{
+		rational result = (*this) - (*this).floor();
+
+		return result;
 	}
 
 	rational::operator double() const

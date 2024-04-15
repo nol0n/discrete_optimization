@@ -39,6 +39,10 @@ namespace nol0n
 		bool operator>(const rational &) const;
 		bool operator<(const rational &) const;
 
+		bool isInteger() const;
+		rational absValue() const;
+		rational floor() const;
+		rational fractional() const;
 		operator double() const;
 
 		friend std::istream &operator>>(std::istream &, rational &);

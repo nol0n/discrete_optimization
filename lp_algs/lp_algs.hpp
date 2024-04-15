@@ -12,8 +12,8 @@ namespace nol0n
     private:
     public:
         static int simplexMethod(Table &, bool = false);
-        static void cuttingPlane(Table &);
-        static void integerCuttingPlane(Table &);
+        static int cuttingPlane(Table &, bool = false);
+        static void integerCuttingPlane(Table &, bool = false);
     };
 
 } // namespace nol0n

@@ -8,7 +8,7 @@
 int getInt() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> int_dist(-2000, 2000);
+    std::uniform_int_distribution<> int_dist(-200, 200);
     
     return int_dist(gen);
 }
@@ -16,7 +16,7 @@ int getInt() {
 int getPositiveInt() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> int_dist(1, 20);
+    std::uniform_int_distribution<> int_dist(1, 30);
     
     return int_dist(gen);
 }
@@ -81,12 +81,25 @@ void randomTest() {
 }
 
 int main(int argc, char* argv[]) {
-    for (int i = 0; i < 1000; i++) {
-        try {
-            randomTest();
-        } catch (const char* err) {
-            std::cout << err;
-        }
+    // for (int i = 0; i < 1000; i++) {
+    //     try {
+    //         randomTest();
+    //     } catch (const char* err) {
+    //         std::cout << err;
+    //     }
+    // }
+
+    nol0n::rational num;
+    for (int i = 0; i < 15; ++i)
+    {
+        num = nol0n::rational(getInt(), getPositiveInt());
+        std::cout << num << " floor() " << num.floor() << "\n\n";
+    }
+ 
+    for (int i = 0; i < 15; ++i)
+    {
+        num = nol0n::rational(getInt(), getPositiveInt());
+        std::cout << num << " fractional() " << num.fractional() << "\n\n";
     }
 
     return 0;

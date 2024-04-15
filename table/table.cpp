@@ -20,14 +20,46 @@ namespace nol0n
         delete[] data;
     }
 
-    size_t Table::getRows()
+    size_t Table::getRows() const
     {
         return _rows;
     }
 
-    size_t Table::getColumns()
+    size_t Table::getColumns() const
     {
         return _columns;
+    }
+
+    void Table::addBottomRow() {
+        rational* newData = new rational[(_rows + 1) * _columns]{};
+
+        for (size_t i = 0; i < _rows; ++i) {
+            for (size_t j = 0; j < _columns ; ++j) {
+                    newData[(i * _columns) + j] = (*this)(i, j);
+            }
+        }
+
+        delete[] data;
+
+        data = newData;
+        _rows++;
+    }
+    
+    void Table::removeBottomRow() {
+        if (_rows == 1) return;
+
+        rational* newData = new rational[(_rows - 1) * _columns]{};
+        _rows--;
+
+        for (size_t i = 0; i < _rows; ++i) {
+            for (size_t j = 0; j < _columns ; ++j) {
+                newData[(i * _columns) + j] = (*this)(i, j);
+            }
+        }
+
+        delete[] data; 
+
+        data = newData;
     }
 
     int Table::readFile(const char path_to_file[], bool debug)
