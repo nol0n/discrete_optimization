@@ -8,7 +8,8 @@
 #include <lp_methods.hpp>
 #include <table.hpp>
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     // lp_methods::two_phase_method("./test.txt", true);
     // lp_methods::simplex_method("./test.txt", true);
     // lp_methods::backpack_max("./backpack.txt", true);
@@ -16,7 +17,16 @@ int main(int argc, char* argv[]) {
     nol0n::Table table;
     table.readFile("./test.txt");
 
-    nol0n::lpalgs::simplexMethod(table, true);
+    if(nol0n::lpalgs::simplexMethod(table, true)) 
+    {
+        std::cout << "found solution\n";
+    }
+    else
+    {
+        std::cout << "optimal solution doesn't exist\n";
+    }
+
+    
 
     return 0;
 }

@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 
-#include <rational.hpp> 
+#include <rational.hpp>
 #include <table.hpp>
 
-int main(int argc, char* argv[]) 
+int main(int argc, char *argv[])
 {
     nol0n::Table table{};
     table.readFile("./test.txt");

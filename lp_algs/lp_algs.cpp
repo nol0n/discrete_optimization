@@ -10,8 +10,8 @@
 namespace nol0n
 {
     /// @brief find optimal solution (non-integer) for column table
-    /// @param table 
-    /// @return 0 - found solution 1 - optmial solution doesn't exit 
+    /// @param table
+    /// @return 1 - found solution 0 - optmial solution doesn't exit
     int lpalgs::simplexMethod(Table &table, bool debug)
     {
         size_t rows = table.getRows();
@@ -19,11 +19,12 @@ namespace nol0n
         size_t column = -1;
         size_t row = -1;
 
-        if (debug) std::cout << table << "\n\n";
+        if (debug)
+            std::cout << table << "\n\n";
 
-        while(true) 
+        while (true)
         {
-            // проходим по первой строке в поиске 
+            // проходим по первой строке в поиске
             // положительных значений
             for (int j = 1; j < columns; ++j)
             {
@@ -39,9 +40,9 @@ namespace nol0n
 
             // не было найдено положительного значения
             // в первом столбце => мы нашли оптимальное решение
-            if (column == -1) 
+            if (column == -1)
             {
-                return 0;
+                return 1;
             }
 
             // если мы нашли отрицательное значение, то необхожимо
@@ -51,9 +52,9 @@ namespace nol0n
             // отношение min(abs(a)), при этом сам будет отрицательным
             // если все элементы положительные, то оптимального плана нет
             rational tmp = 0;
-            for (size_t i = 1; i < rows; ++i) 
+            for (size_t i = 1; i < rows; ++i)
             {
-                if (table(i, column) < rational(0) && (table(i, 0) / table(i, column)) > tmp) 
+                if (table(i, column) < rational(0) && (table(i, 0) / table(i, column)) > tmp)
                 {
                     row = i;
                     tmp = table(i, 0) / table(i, column);
@@ -64,12 +65,13 @@ namespace nol0n
             // оптимального решения не сущесвтует
             if (row == -1)
             {
-                return 1;
+                return 0;
             }
 
             // зануляем выбранную строку
             table.rowZeroing(row, column);
-            if (debug) std::cout << table << "\n\n";
+            if (debug)
+                std::cout << table << "\n\n";
 
             column = -1;
             row = -1;

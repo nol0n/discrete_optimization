@@ -7,14 +7,13 @@
 namespace nol0n
 {
 
-    class lpalgs 
+    class lpalgs
     {
     private:
-
     public:
-        static int simplexMethod(Table&, bool = false);
-        static void cuttingPlane(Table&);
-        static void integerCuttingPlane(Table&);
+        static int simplexMethod(Table &, bool = false);
+        static void cuttingPlane(Table &);
+        static void integerCuttingPlane(Table &);
     };
 
 } // namespace nol0n

@@ -3,31 +3,33 @@
 #include <rational.hpp>
 #include <iostream>
 
-namespace nol0n 
+namespace nol0n
 {
 
-class Table {
-private:
-    rational* data;
-    size_t _rows;
-    size_t _columns;
-public:
-    Table();
-    Table(size_t, size_t);
-    ~Table();
+    class Table
+    {
+    private:
+        rational *data;
+        size_t _rows;
+        size_t _columns;
 
-    size_t getRows();
-    size_t getColumns();
+    public:
+        Table();
+        Table(size_t, size_t);
+        ~Table();
 
-    int readFile(const char[], bool = false);
+        size_t getRows();
+        size_t getColumns();
 
-    void columnZeroing(size_t, size_t);
-    void rowZeroing(size_t, size_t);
+        int readFile(const char[], bool = false);
 
-    rational& operator() (size_t, size_t);
-    const rational operator() (size_t, size_t) const;
+        void columnZeroing(size_t, size_t);
+        void rowZeroing(size_t, size_t);
 
-    friend std::ostream& operator<<(std::ostream&, const Table&);
-};
+        rational &operator()(size_t, size_t);
+        const rational operator()(size_t, size_t) const;
+
+        friend std::ostream &operator<<(std::ostream &, const Table &);
+    };
 
 } // namespace nol0n
