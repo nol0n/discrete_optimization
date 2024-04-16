@@ -116,6 +116,7 @@ namespace obv
         if (debug)
             std::cout << (*this);
 
+        task.close();
         return 0;
     }
 

@@ -17,17 +17,12 @@ int main(int argc, char *argv[])
     obv::Table table;
     table.readFile("./test.txt");
 
-    try
-    {
-        obv::lpalgs::simplexMethod(table, true);
-        std::cout << "--------- Gomery Cutting Plane ----------\n\n\n";
-        obv::lpalgs::cuttingPlane(table, true);
-    }
-    catch (const char *err)
-    {
-        std::cerr << err;
-    }
+    obv::lpalgs::simplexMethod(table);
+    obv::lpalgs::cuttingPlane(table, true);
+    std::cout << table << "\n\n";
 
+    table.readFile("./test.txt");
+    obv::lpalgs::integerCuttingPlane(table);
     std::cout << table << "\n\n";
 
     return 0;
