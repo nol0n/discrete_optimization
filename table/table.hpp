@@ -3,7 +3,7 @@
 #include <rational.hpp>
 #include <iostream>
 
-namespace nol0n
+namespace obv
 {
 
     class Table
@@ -35,4 +35,4 @@ namespace nol0n
         friend std::ostream &operator<<(std::ostream &, const Table &);
     };
 
-} // namespace nol0n
+} // namespace obv

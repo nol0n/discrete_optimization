@@ -10,7 +10,7 @@
 namespace simplexMethod
 {
 
-    void findPositiveValueInRow(const nol0n::Table &table, int &column)
+    void findPositiveValueInRow(const obv::Table &table, int &column)
     {
         size_t columns = table.getColumns();
 
@@ -18,7 +18,7 @@ namespace simplexMethod
         {
             // если нашли положительный коэффициент, то запоминаем индекс
             // его столбца, иначе индекс будет равен -1
-            if (table(0, j) > nol0n::rational(0))
+            if (table(0, j) > obv::rational(0))
             {
                 column = j;
                 break;
@@ -26,15 +26,15 @@ namespace simplexMethod
         }
     }
 
-    void findMinmumRelationInColumn(const nol0n::Table &table, const int &column, int &row)
+    void findMinmumRelationInColumn(const obv::Table &table, const int &column, int &row)
     {
         size_t rows = table.getRows();
 
-        nol0n::rational tmp = 0;
+        obv::rational tmp = 0;
         for (size_t i = 1; i < rows; ++i)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(i, column) < nol0n::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == nol0n::rational(0)))
+            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(0)))
             {
                 row = i;
                 tmp = table(i, 0) / table(i, column);
@@ -47,7 +47,7 @@ namespace simplexMethod
 namespace cuttingPlane
 {
 
-    void findNonIntegerInColumn(const nol0n::Table &table, int &row)
+    void findNonIntegerInColumn(const obv::Table &table, int &row)
     {
         size_t rows = table.getRows();
 
@@ -63,28 +63,30 @@ namespace cuttingPlane
         }
     }
 
-    void createCut(nol0n::Table &table, const int &row) 
+    void createCut(obv::Table &table, const int &row) 
     {
         size_t lastRowIndex = table.getRows() - 1;
         size_t columns = table.getColumns();
-        table(lastRowIndex, 0) = table(row, 0).fractional() * nol0n::rational(-1);
+        // в столбец коэффициентов - правая_часть.fractional() - 1
+        table(lastRowIndex, 0) = table(row, 0).fractional() - obv::rational(1);
 
+        // в левой части просто - значение.fractional()
         for (int j = 1; j < columns; ++j)
         {
             table(lastRowIndex, j) = table(row, j).fractional();
         }
     }
 
-    void findMinmumRelationInRow(const nol0n::Table &table, int &column)
+    void findMinmumRelationInRow(const obv::Table &table, int &column)
     {
         size_t lastRowIndex = table.getRows() - 1;
         size_t columns = table.getColumns();
 
-        nol0n::rational tmp = 0;
+        obv::rational tmp = 0;
         for (size_t j = 1; j < columns; ++j)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(lastRowIndex, j) > nol0n::rational(0) && ((table(0, j) / table(lastRowIndex, j)) > tmp || tmp == nol0n::rational(0)))
+            if (table(lastRowIndex, j) > obv::rational(0) && ((table(0, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
             {
                 column = j;
                 tmp = table(0, j) / table(lastRowIndex, j);
@@ -94,7 +96,7 @@ namespace cuttingPlane
 
 } // namespace cuttingPlane
 
-namespace nol0n
+namespace obv
 {
     /// @brief поиск оптмаильного решения (не целочисленного) для столбцовой таблицы
     /// @param таблица в столбцовом формате
@@ -159,6 +161,7 @@ namespace nol0n
 
         while (true)
         {
+            
             // проходим первый столбец в поиске дробных значений
             cuttingPlane::findNonIntegerInColumn(table, row);
 
@@ -178,8 +181,6 @@ namespace nol0n
             cuttingPlane::findMinmumRelationInRow(table, column);
 
             table.rowZeroing(rows - 1, column);
-            if (debug)
-                std::cout << table << "\n" << std::endl;
 
             column = 0;
             row = -1;
@@ -192,4 +193,4 @@ namespace nol0n
     {
     }
 
-} // namespace nol0n
+} // namespace obv

@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    nol0n::Table table{};
+    obv::Table table{};
     table.readFile("./test.txt");
 
     std::cout << table << "\n\n";

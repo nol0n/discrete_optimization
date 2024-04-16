@@ -1,7 +1,7 @@
 #include <math.h>
 #include <rational.hpp>
 
-namespace nol0n
+namespace obv
 {
 
 	rational::rational()
@@ -365,4 +365,4 @@ namespace nol0n
 		return outs;
 	}
 
-} // namespace nol0n
+} // namespace obv

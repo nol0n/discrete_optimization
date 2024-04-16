@@ -14,14 +14,14 @@ int main(int argc, char *argv[])
     // lp_methods::simplex_method("./test.txt", true);
     // lp_methods::backpack_max("./backpack.txt", true);
 
-    nol0n::Table table;
+    obv::Table table;
     table.readFile("./test.txt");
 
     try
     {
-        nol0n::lpalgs::simplexMethod(table, true);
+        obv::lpalgs::simplexMethod(table, true);
         std::cout << "--------- Gomery Cutting Plane ----------\n\n\n";
-        nol0n::lpalgs::cuttingPlane(table, true);
+        obv::lpalgs::cuttingPlane(table, true);
     }
     catch (const char *err)
     {

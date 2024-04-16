@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-namespace nol0n
+namespace obv
 {
 
 	class rational
@@ -49,4 +49,4 @@ namespace nol0n
 		friend std::ostream &operator<<(std::ostream &, const rational &);
 	};
 
-} // namespace nol0n
+} // namespace obv

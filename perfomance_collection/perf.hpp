@@ -4,7 +4,7 @@
 #include <rational.hpp>
 #include <lp_algs.hpp>
 
-namespace nol0n
+namespace obv
 {
 
-} // namespace nol0n
+} // namespace obv

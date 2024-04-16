@@ -4,7 +4,7 @@
 
 #include <table.hpp>
 
-namespace nol0n
+namespace obv
 {
 
     class lpalgs

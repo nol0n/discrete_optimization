@@ -35,13 +35,13 @@ void randomTest() {
     int d1 = getPositiveInt();
     int d2 = getPositiveInt();
 
-    nol0n::rational num1(n1, d1);
-    nol0n::rational num2(n2, d2);
+    obv::rational num1(n1, d1);
+    obv::rational num2(n2, d2);
 
     char op = getOp();
 
-    nol0n::rational ratRes1;
-    nol0n::rational ratRes2 = num1;
+    obv::rational ratRes1;
+    obv::rational ratRes2 = num1;
     double res = 0.;
     switch (op)
     {
@@ -89,16 +89,16 @@ int main(int argc, char* argv[]) {
     //     }
     // }
 
-    nol0n::rational num;
+    obv::rational num;
     for (int i = 0; i < 15; ++i)
     {
-        num = nol0n::rational(getInt(), getPositiveInt());
+        num = obv::rational(getInt(), getPositiveInt());
         std::cout << num << " floor() " << num.floor() << "\n\n";
     }
  
     for (int i = 0; i < 15; ++i)
     {
-        num = nol0n::rational(getInt(), getPositiveInt());
+        num = obv::rational(getInt(), getPositiveInt());
         std::cout << num << " fractional() " << num.fractional() << "\n\n";
     }
 

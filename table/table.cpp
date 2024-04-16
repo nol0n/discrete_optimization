@@ -2,7 +2,7 @@
 
 #include <table.hpp>
 
-namespace nol0n
+namespace obv
 {
 
     Table::Table() : _rows(0), _columns(0)
@@ -187,4 +187,4 @@ namespace nol0n
         return outs;
     }
 
-} // namespace nol0n
+} // namespace obv
