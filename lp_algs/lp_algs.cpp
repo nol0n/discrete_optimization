@@ -211,7 +211,6 @@ namespace obv
 
         while (true)
         {
-            
             // проходим первый столбец в поиске дробных значений
             cuttingPlane::findNonIntegerInColumn(table, row);
 

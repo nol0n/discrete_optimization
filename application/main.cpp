@@ -15,10 +15,10 @@ int main(int argc, char *argv[])
     // lp_methods::backpack_max("./backpack.txt", true);
 
     obv::Table table;
+    
     table.readFile("./test.txt");
-
     obv::lpalgs::simplexMethod(table);
-    obv::lpalgs::cuttingPlane(table, true);
+    obv::lpalgs::cuttingPlane(table);
     std::cout << table << "\n\n";
 
     table.readFile("./test.txt");
