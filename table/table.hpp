@@ -29,6 +29,13 @@ namespace obv
         void columnZeroing(size_t, size_t);
         void rowZeroing(size_t, size_t);
 
+        static void findPositiveValueInRow(const obv::Table &, int &);
+        static void findNonIntegerInColumn(const obv::Table &, int &);
+        static void findMinmumRelationInRow(const obv::Table &, int &);
+        static void findMinmumRelationInColumn(const obv::Table &, const int &, int &);
+        static void createCut(obv::Table &, const int &);
+        static void createCutInteger(obv::Table &, const int &, const int &);
+
         rational &operator()(size_t, size_t);
         const rational operator()(size_t, size_t) const;
 

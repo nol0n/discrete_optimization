@@ -7,145 +7,6 @@
 #include <rational.hpp>
 #include <table.hpp>
 
-namespace simplexMethod
-{
-
-    void findPositiveValueInRow(const obv::Table &table, int &column)
-    {
-        size_t columns = table.getColumns();
-
-        for (int j = 1; j < columns; ++j)
-        {
-            // если нашли положительный коэффициент, то запоминаем индекс
-            // его столбца, иначе индекс будет равен -1
-            if (table(0, j) > obv::rational(0))
-            {
-                column = j;
-                break;
-            }
-        }
-    }
-
-    void findMinmumRelationInColumn(const obv::Table &table, const int &column, int &row)
-    {
-        size_t rows = table.getRows();
-
-        obv::rational tmp = 0;
-        for (size_t i = 1; i < rows; ++i)
-        {
-            // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(0)))
-            {
-                row = i;
-                tmp = table(i, 0) / table(i, column);
-            }
-        }
-    }
-
-} // namespace simplexMethod
-
-namespace cuttingPlane
-{
-
-    void findNonIntegerInColumn(const obv::Table &table, int &row)
-    {
-        size_t rows = table.getRows();
-
-        for (int i = 0; i < rows - 1; ++i)
-        {
-            // если нашли добрное значение, то запоминаем индекс
-            // его строки, иначе индекс будет равен -1
-            if (!table(i, 0).isInteger())
-            {
-                row = i;
-                break;
-            }
-        }
-    }
-
-    void createCut(obv::Table &table, const int &row) 
-    {
-        size_t lastRowIndex = table.getRows() - 1;
-        size_t columns = table.getColumns();
-        // в столбец коэффициентов - правая_часть.fractional() - 1
-        table(lastRowIndex, 0) = table(row, 0).fractional() - obv::rational(1);
-
-        // в левой части просто - значение.fractional()
-        for (int j = 1; j < columns; ++j)
-        {
-            table(lastRowIndex, j) = table(row, j).fractional();
-        }
-    }
-
-    void findMinmumRelationInRow(const obv::Table &table, int &column)
-    {
-        size_t lastRowIndex = table.getRows() - 1;
-        size_t columns = table.getColumns();
-
-        obv::rational tmp = 0;
-        for (size_t j = 1; j < columns; ++j)
-        {
-            // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(lastRowIndex, j) > obv::rational(0) && ((table(0, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
-            {
-                column = j;
-                tmp = table(0, j) / table(lastRowIndex, j);
-            }
-        }
-    }
-
-} // namespace cuttingPlane
-
-namespace integerCuttingPlane 
-{
-    void findPositiveValueInRow(const obv::Table& table, int &column) 
-    {  
-        size_t columns = table.getColumns();
-
-        for (int j = 1; j < columns; ++j)
-        {
-            // если нашли положительный коэффициент, то запоминаем индекс
-            // его столбца, иначе индекс будет равен -1
-            if (table(0, j) > obv::rational(0))
-            {
-                column = j;
-                break;
-            }
-        }
-    }
-
-    void findMinmumRelationInColumn(const obv::Table &table, const int &column, int &row)
-    {
-        size_t rows = table.getRows() - 1;
-
-        obv::rational tmp = 0;
-        for (size_t i = 1; i < rows; ++i)
-        {
-            // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(0)))
-            {
-                row = i;
-                tmp = table(i, 0) / table(i, column);
-            }
-        }
-    }
-
-    void createCut(obv::Table &table, const int &row, const int &column) 
-    {
-        size_t lastRowIndex = table.getRows() - 1;
-        size_t columns = table.getColumns();
-
-        // значение разрешающего элемента
-        obv::rational value = table(row, column);
-
-        table(lastRowIndex, 0) = (table(row, 0) / (value * obv::rational(-1))).floor();
-        for (size_t j = 1; j < columns; ++j) 
-        {
-            table(lastRowIndex, j) = ((table(row, j) / value).floor()) * obv::rational(-1);
-        }
-    }
-} // namespace integetCuttingPlane
-
 namespace obv
 {
     /// @brief поиск оптмаильного решения (не целочисленного) для столбцовой таблицы
@@ -164,7 +25,7 @@ namespace obv
         while (true)
         {
             // проходим по первой строке в поиске положительных значений
-            simplexMethod::findPositiveValueInRow(table, column);
+            Table::findPositiveValueInRow(table, column);
 
             // не было найдено положительного значения
             // в первом столбце => мы нашли оптимальное решение
@@ -177,7 +38,7 @@ namespace obv
 
             // найдем элемент в столбце, который будет иметь отношени, при этом сам будет
             // отрицательным если все элементы положительные, то row будет = -1
-            simplexMethod::findMinmumRelationInColumn(table, column, row);
+            Table::findMinmumRelationInColumn(table, column, row);
 
             // не удалось найти допустимый элемент => оптимального решения не сущесвтует
             if (row == -1)
@@ -212,7 +73,7 @@ namespace obv
         while (true)
         {
             // проходим первый столбец в поиске дробных значений
-            cuttingPlane::findNonIntegerInColumn(table, row);
+            Table::findNonIntegerInColumn(table, row);
 
             // нет дробных значений => найдено целочисленное решение
             if (row == -1)
@@ -223,13 +84,13 @@ namespace obv
             }
 
             // составляем и записываем отсечение
-            cuttingPlane::createCut(table, row);
+            Table::createCut(table, row);
 
             if (debug)
                 std::cout << table << "\n" << std::endl;
 
             // ищем элемент с минимальным отношением
-            cuttingPlane::findMinmumRelationInRow(table, column);
+            Table::findMinmumRelationInRow(table, column);
 
             table.rowZeroing(rows - 1, column);
 
@@ -255,7 +116,7 @@ namespace obv
         
         while (true) {
             // проходим по первой строке в поиске положительных значений
-            integerCuttingPlane::findPositiveValueInRow(table, column);
+            Table::findPositiveValueInRow(table, column);
 
             // не было найдено положительного значения
             // в первом столбце => мы нашли оптимальное решение
@@ -270,7 +131,7 @@ namespace obv
 
             // найдем элемент в столбце, который будет иметь отношени, при этом сам будет
             // отрицательным если все элементы положительные, то row будет = -1
-            simplexMethod::findMinmumRelationInColumn(table, column, row);
+            Table::findMinmumRelationInColumn(table, column, row);
 
             // не удалось найти допустимый элемент => оптимального решения не сущесвтует
             if (row == -1)
@@ -281,7 +142,7 @@ namespace obv
             }
 
             // составим отсечение
-            integerCuttingPlane::createCut(table, row, column);
+            Table::createCutInteger(table, row, column);
 
             if (debug)
                 std::cout << table << "\n\n";

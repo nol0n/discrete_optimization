@@ -165,6 +165,100 @@ namespace obv
         }
     }
 
+    void Table::findPositiveValueInRow(const obv::Table &table, int &column)
+    {
+        size_t columns = table.getColumns();
+
+        for (int j = 1; j < columns; ++j)
+        {
+            // если нашли положительный коэффициент, то запоминаем индекс
+            // его столбца, иначе индекс будет равен -1
+            if (table(0, j) > obv::rational(0))
+            {
+                column = j;
+                break;
+            }
+        }
+    }
+
+    void Table::findNonIntegerInColumn(const obv::Table &table, int &row)
+    {
+        size_t rows = table.getRows();
+
+        for (int i = 0; i < rows - 1; ++i)
+        {
+            // если нашли добрное значение, то запоминаем индекс
+            // его строки, иначе индекс будет равен -1
+            if (!table(i, 0).isInteger())
+            {
+                row = i;
+                break;
+            }
+        }
+    }
+
+    void Table::findMinmumRelationInRow(const obv::Table &table, int &column)
+    {
+        size_t lastRowIndex = table.getRows() - 1;
+        size_t columns = table.getColumns();
+
+        obv::rational tmp = 0;
+        for (size_t j = 1; j < columns; ++j)
+        {
+            // берется наименьшее отношение, если будет несколько равных, будет взято первое
+            if (table(lastRowIndex, j) > obv::rational(0) && ((table(0, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
+            {
+                column = j;
+                tmp = table(0, j) / table(lastRowIndex, j);
+            }
+        }
+    }
+
+    void Table::findMinmumRelationInColumn(const obv::Table &table, const int &column, int &row)
+    {
+        size_t rows = table.getRows();
+
+        obv::rational tmp = 0;
+        for (size_t i = 1; i < rows; ++i)
+        {
+            // берется наименьшее отношение, если будет несколько равных, будет взято первое
+            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(0)))
+            {
+                row = i;
+                tmp = table(i, 0) / table(i, column);
+            }
+        }
+    }
+
+    void Table::createCut(obv::Table &table, const int &row) 
+    {
+        size_t lastRowIndex = table.getRows() - 1;
+        size_t columns = table.getColumns();
+        // в столбец коэффициентов - правая_часть.fractional() - 1
+        table(lastRowIndex, 0) = table(row, 0).fractional() - obv::rational(1);
+
+        // в левой части просто - значение.fractional()
+        for (int j = 1; j < columns; ++j)
+        {
+            table(lastRowIndex, j) = table(row, j).fractional();
+        }
+    }
+
+    void Table::createCutInteger(obv::Table &table, const int &row, const int &column) 
+    {
+        size_t lastRowIndex = table.getRows() - 1;
+        size_t columns = table.getColumns();
+
+        // значение разрешающего элемента
+        obv::rational value = table(row, column);
+
+        table(lastRowIndex, 0) = (table(row, 0) / (value * obv::rational(-1))).floor();
+        for (size_t j = 1; j < columns; ++j) 
+        {
+            table(lastRowIndex, j) = ((table(row, j) / value).floor()) * obv::rational(-1);
+        }
+    }
+
     rational &Table::operator()(size_t row, size_t column)
     {
         return data[row * _columns + column];

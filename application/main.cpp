@@ -25,5 +25,7 @@ int main(int argc, char *argv[])
     obv::lpalgs::integerCuttingPlane(table);
     std::cout << table << "\n\n";
 
+    // std::cout << "press ENTER for exit";
+    // std::cin.get();
     return 0;
 }
