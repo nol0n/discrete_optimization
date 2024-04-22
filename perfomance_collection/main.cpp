@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
         }
         collector.addSample(i, collector.stopTimer());
         std::cout << sum << "\n";
-    }
+    }                
 
     collector.saveResult("./output.txt");
 

@@ -12,6 +12,7 @@ namespace obv
     private:
     public:
         static int simplexMethod(Table &, bool = false);
+        static int dualSimplexMethod(Table &, bool = false);
         static int cuttingPlane(Table &, bool = false);
         static int integerCuttingPlane(Table &, bool = false);
     };

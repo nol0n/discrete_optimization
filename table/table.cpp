@@ -165,31 +165,33 @@ namespace obv
         }
     }
 
-    void Table::findPositiveValueInRow(const obv::Table &table, int &column)
+    void Table::findPositiveValueInRow(const obv::Table &table, const int& row, int &column)
     {
         size_t columns = table.getColumns();
 
         for (int j = 1; j < columns; ++j)
         {
             // если нашли положительный коэффициент, то запоминаем индекс
-            // его столбца, иначе индекс будет равен -1
-            if (table(0, j) > obv::rational(0))
+            // его столбца, иначе индекс будет равен -1 (входное значение
+            // column не изменится)
+            if (table(row, j) > obv::rational(0))
             {
                 column = j;
                 break;
             }
         }
     }
-
-    void Table::findNonIntegerInColumn(const obv::Table &table, int &row)
+    
+    void Table::findNegativeValueInColumn(const obv::Table &table, const int & column, int &row)
     {
         size_t rows = table.getRows();
 
-        for (int i = 0; i < rows - 1; ++i)
+        for (int i = 1; i < rows; ++i)
         {
-            // если нашли добрное значение, то запоминаем индекс
-            // его строки, иначе индекс будет равен -1
-            if (!table(i, 0).isInteger())
+            // если нашли отрицательный коэффициент, то запомниаем индекс
+            // его строки, иначе индекс будет равен -1 (входное значение
+            // row не изменится)
+            if (table(i, column) < obv::rational(0))
             {
                 row = i;
                 break;
@@ -197,7 +199,24 @@ namespace obv
         }
     }
 
-    void Table::findMinmumRelationInRow(const obv::Table &table, int &column)
+
+    void Table::findNonIntegerInColumn(const obv::Table &table, const int &column, int &row)
+    {
+        size_t rows = table.getRows();
+
+        for (int i = 0; i < rows - 1; ++i)
+        {
+            // если нашли добрное значение, то запоминаем индекс
+            // его строки, иначе индекс будет равен -1
+            if (!table(i, column).isInteger())
+            {
+                row = i;
+                break;
+            }
+        }
+    }
+
+    void Table::findMinmumRelationInRow(const obv::Table &table, const int &row, int &column)
     {
         size_t lastRowIndex = table.getRows() - 1;
         size_t columns = table.getColumns();
@@ -206,10 +225,10 @@ namespace obv
         for (size_t j = 1; j < columns; ++j)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(lastRowIndex, j) > obv::rational(0) && ((table(0, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
+            if (table(lastRowIndex, j) > obv::rational(0) && ((table(row, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
             {
                 column = j;
-                tmp = table(0, j) / table(lastRowIndex, j);
+                tmp = table(row, j) / table(lastRowIndex, j);
             }
         }
     }
