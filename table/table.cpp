@@ -165,6 +165,24 @@ namespace obv
         }
     }
 
+    void Table::changeColumns(size_t changedColumn, size_t sourceColumn, int coefficient, sign sign_value)
+    {
+        int sign = 1;
+
+        switch(sign_value)
+        {
+            case PLUS:
+                sign = 1;
+            case MINUS:
+                sign = -1;
+        }
+
+        for (int i = 0; i < _rows; ++i)
+        {
+            (*this)(i, changedColumn) += ((*this)(i, sourceColumn) * obv::rational(coefficient)) * obv::rational(sign);
+        }
+    }
+
     void Table::findPositiveValueInRow(const obv::Table &table, const int& row, int &column)
     {
         size_t columns = table.getColumns();

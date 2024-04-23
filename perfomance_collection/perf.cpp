@@ -2,6 +2,7 @@
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <random>
 
 #include <perf.hpp>
 
@@ -65,6 +66,21 @@ namespace obv
         auto nowMS = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
 
         return nowMS.time_since_epoch().count();
+    }
+
+    int* Perf::getInt(const int & min, const int & max, const int &count) 
+    {
+        std::random_device dev{};
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<std::mt19937::result_type> dist(min, max);
+
+        int* values = new int[count];
+        for (int i = 0; i < count; ++i)
+        {
+            values[i] = dist(rng);
+        }
+
+        return values;
     }
 
 } // namespace obv

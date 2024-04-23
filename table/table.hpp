@@ -14,6 +14,12 @@ namespace obv
         size_t _columns;
 
     public:
+        enum sign 
+        {
+            PLUS,
+            MINUS,
+        };
+
         Table();
         Table(size_t, size_t);
         ~Table();
@@ -28,6 +34,7 @@ namespace obv
 
         void columnZeroing(size_t, size_t);
         void rowZeroing(size_t, size_t);
+        void changeColumns(size_t, size_t, int, sign = PLUS);
 
         static void findPositiveValueInRow(const obv::Table &, const int &, int &);
         static void findNegativeValueInColumn(const obv::Table &, const int &, int &);

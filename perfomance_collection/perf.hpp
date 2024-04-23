@@ -17,6 +17,7 @@ namespace obv
         int saveResult(const char*);
 
         static long long getCurrentTime();
+        static int* getInt(const int & = INT_MIN, const int & = INT_MAX, const int & = 1);
     private:
         long long startTime;
         std::vector<std::pair<int, double>> samples;
