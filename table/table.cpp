@@ -236,17 +236,16 @@ namespace obv
 
     void Table::findMinmumRelationInRow(const obv::Table &table, const int &row, int &column)
     {
-        size_t lastRowIndex = table.getRows() - 1;
         size_t columns = table.getColumns();
 
         obv::rational tmp = 0;
         for (size_t j = 1; j < columns; ++j)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(lastRowIndex, j) > obv::rational(0) && ((table(row, j) / table(lastRowIndex, j)) > tmp || tmp == obv::rational(0)))
+            if (table(row, j) > obv::rational(0) && ((table(0, j) / table(row, j)) > tmp || tmp == obv::rational(0)))
             {
                 column = j;
-                tmp = table(row, j) / table(lastRowIndex, j);
+                tmp = table(0, j) / table(row, j);
             }
         }
     }
