@@ -1,10 +1,9 @@
 #include <math.h>
 
-#include <perf.hpp>
-
-#include <table.hpp>
 #include <rational.hpp>
+#include <table.hpp>
 #include <lp_algs.hpp>
+#include <perf.hpp>
 
 obv::Table generateTable (const int& variables, const int& constraints)
 {

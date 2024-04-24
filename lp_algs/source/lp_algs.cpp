@@ -4,8 +4,6 @@
 #include <math.h>
 
 #include <lp_algs.hpp>
-#include <rational.hpp>
-#include <table.hpp>
 
 namespace obv
 {

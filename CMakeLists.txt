@@ -5,16 +5,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(LinearProgrammingAlgs)
 
-add_subdirectory(
-	application
-)
-
-add_subdirectory(
-	lp_methods
-)
-
-add_subdirectory(
-	lp_algs
+include_directories(
+	./rational_numbers/include
+	./table/include
+	./lp_algs/include
+	./perfomance_collection/include
 )
 
 add_subdirectory(
@@ -26,5 +21,13 @@ add_subdirectory(
 )
 
 add_subdirectory(
+	lp_algs
+)
+
+add_subdirectory(
 	perfomance_collection
+)
+
+add_subdirectory(
+	application
 )

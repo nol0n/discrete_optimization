@@ -3,17 +3,12 @@
 #include <vector>
 #include <random>
 
-#include <lp_algs.hpp>
 #include <rational.hpp>
-#include <lp_methods.hpp>
 #include <table.hpp>
+#include <lp_algs.hpp>
 
 int main(int argc, char *argv[])
 {
-    // lp_methods::two_phase_method("./test.txt", true);
-    // lp_methods::simplex_method("./test.txt", true);
-    // lp_methods::backpack_max("./backpack.txt", true);
-
     obv::Table table;
     
     table.readFile("./test.txt");
@@ -25,7 +20,7 @@ int main(int argc, char *argv[])
     obv::lpalgs::integerCuttingPlane(table);
     std::cout << table << "\n\n";
 
-    // std::cout << "press ENTER for exit";
-    // std::cin.get();
+    std::cout << "press ENTER for exit";
+    std::cin.get();
     return 0;
 }
