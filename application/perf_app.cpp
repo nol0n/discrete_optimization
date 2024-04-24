@@ -9,8 +9,6 @@ obv::Table generateTable (const int& variables, const int& constraints)
 {
     obv::Table table(variables, constraints);
 
-    
-
     return table;
 }
 
