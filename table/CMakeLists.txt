@@ -15,6 +15,6 @@ add_library(table
 	${HEADERS}
 )
 
-target_link_libraries(table PRIVATE
-	rational_numbers
+target_link_libraries(table 
+	PRIVATE	rational_numbers
 )

@@ -14,3 +14,7 @@ add_library(rational_numbers
 	${SRC}
 	${HEADERS}
 )
+
+target_link_libraries(rational_numbers
+	PRIVATE BigInt
+)

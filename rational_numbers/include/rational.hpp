@@ -3,23 +3,27 @@
 #include <iostream>
 #include <string>
 
+#include <BigInt.hpp>
+
 namespace obv
 {
 
 	class rational
 	{
 	private:
-		int numerator;
-		int denominator;
+		BigInt numerator;
+		BigInt denominator;
 
-		int GreatestCommonDivisor(int, int);
+		BigInt GreatestCommonDivisor(BigInt, BigInt);
 		void reduction();
 		static bool isInt(std::string &);
 
 	public:
 		rational();
-		rational(const int &, const int &);
-		rational(const int &);
+		rational(const long long &, const long long &);
+		rational(const long long &);
+		rational(const BigInt &, const BigInt &);
+		rational(const BigInt &);
 		rational(const rational &num);
 
 		rational operator+(const rational &) const;
@@ -43,7 +47,6 @@ namespace obv
 		rational absValue() const;
 		rational floor() const;
 		rational fractional() const;
-		operator double() const;
 
 		friend std::istream &operator>>(std::istream &, rational &);
 		friend std::ostream &operator<<(std::ostream &, const rational &);

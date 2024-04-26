@@ -50,7 +50,7 @@ void randomTest() {
         ratRes2 += num2;
         res = (double(n1) / double(d1)) + (double(n2) / double(d2));
         if (true) {
-            std::cout << num1 << " + " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
+            std::cout << num1 << " + " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << "double(ratRes1)" << " | " << res << ")\n\n";
         }
         break;
     case 2:
@@ -58,7 +58,7 @@ void randomTest() {
         ratRes2 -= num2;
         res = (double(n1) / double(d1)) - (double(n2) / double(d2));
         if (true) {
-            std::cout << num1 << " - " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
+            std::cout << num1 << " - " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << "double(ratRes1)" << " | " << res << ")\n\n";
         }
         break;
     case 3:
@@ -66,7 +66,7 @@ void randomTest() {
         ratRes2 *= num2;
         res = (double(n1) / double(d1)) * (double(n2) / double(d2));
         if (true) {    
-            std::cout << num1 << " * " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
+            std::cout << num1 << " * " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << "double(ratRes1)" << " | " << res << ")\n\n";
         }
         break;
     case 4:
@@ -74,7 +74,7 @@ void randomTest() {
         ratRes2 /= num2;
         res = (double(n1) / double(d1)) / (double(n2) / double(d2));
         if (true) {
-            std::cout << num1 << " / " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << double(ratRes1) << " | " << res << ")\n\n";
+            std::cout << num1 << " / " << num2 << " = " << ratRes1 << " (" << ratRes2 << ")\n(" << "double(ratRes1)" << " | " << res << ")\n\n";
         }
         break;
     }

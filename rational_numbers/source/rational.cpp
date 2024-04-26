@@ -11,7 +11,7 @@ namespace obv
 		denominator = 1;
 	}
 
-	rational::rational(const int &a, const int &b)
+	rational::rational(const long long &a, const long long &b)
 	{
 		if (b > 0)
 		{
@@ -20,12 +20,28 @@ namespace obv
 		}
 		else
 		{
-			throw "rational.cpp::rational::rational(int a, int b) denominator must be greater than 0\n";
+			throw "rational.cpp::rational::rational(long long a, long long b) denominator must be greater than 0\n";
 		}
 		this->reduction();
 	}
 
-	rational::rational(const int &a) : numerator(a), denominator(1) {}
+	rational::rational(const long long &a) : numerator(a), denominator(1) {}
+
+	rational::rational(const BigInt &a, const BigInt &b)
+	{
+		if (b > 0)
+		{
+			numerator = a;
+			denominator = b;
+		}
+		else
+		{
+			throw "rational.cpp::rational::rational(long long a, long long b) denominator must be greater than 0\n";
+		}
+		this->reduction();
+	}
+
+	rational::rational(const BigInt &a) : numerator(a), denominator(1) {}
 
 	rational::rational(const rational &num)
 	{
@@ -33,10 +49,10 @@ namespace obv
 		denominator = num.denominator;
 	}
 
-	int rational::GreatestCommonDivisor(int A, int B)
+	BigInt rational::GreatestCommonDivisor(BigInt A, BigInt B)
 	{
-		int a = abs(A);
-		int b = abs(B);
+		BigInt a = BigInt::abs(A);
+		BigInt b = BigInt::abs(B);
 		while (a != 0 && b != 0)
 		{
 			if (a > b)
@@ -53,7 +69,7 @@ namespace obv
 
 	void rational::reduction()
 	{
-		int divider = GreatestCommonDivisor(numerator, denominator);
+		BigInt divider = GreatestCommonDivisor(numerator, denominator);
 		numerator /= divider;
 		denominator /= divider;
 	}
@@ -221,7 +237,7 @@ namespace obv
 
 	bool rational::operator==(rational const &num) const
 	{
-		int a = numerator * num.denominator, b = num.numerator * denominator;
+		BigInt a = numerator * num.denominator, b = num.numerator * denominator;
 		if (a == b)
 		{
 			return true;
@@ -263,7 +279,7 @@ namespace obv
 
 	bool rational::operator>(rational const &num) const
 	{
-		int a = numerator * num.denominator, b = num.numerator * denominator;
+		BigInt a = numerator * num.denominator, b = num.numerator * denominator;
 		if (a > b)
 		{
 			return true;
@@ -276,7 +292,7 @@ namespace obv
 
 	bool rational::operator<(rational const &num) const
 	{
-		int a = numerator * num.denominator, b = num.numerator * denominator;
+		BigInt a = numerator * num.denominator, b = num.numerator * denominator;
 		if (a < b)
 		{
 			return true;
@@ -325,11 +341,6 @@ namespace obv
 		rational result = (*this) - (*this).floor();
 
 		return result;
-	}
-
-	rational::operator double() const
-	{
-		return double((double)this->numerator / (double)this->denominator);
 	}
 
 	std::istream &operator>>(std::istream &ins, rational &num)

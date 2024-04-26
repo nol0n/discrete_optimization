@@ -13,14 +13,14 @@ int main(int argc, char *argv[])
     
     table.readFile("./test.txt");
     obv::lpalgs::simplexMethod(table);
-    obv::lpalgs::cuttingPlane(table);
+    obv::lpalgs::cuttingPlane(table, true);
     std::cout << table << "\n\n";
 
     table.readFile("./test.txt");
     obv::lpalgs::integerCuttingPlane(table);
     std::cout << table << "\n\n";
 
-    std::cout << "press ENTER for exit";
-    std::cin.get();
+    // std::cout << "press ENTER for exit";
+    // std::cin.get();
     return 0;
 }
