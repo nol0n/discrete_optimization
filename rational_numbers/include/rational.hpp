@@ -7,7 +7,6 @@
 
 namespace obv
 {
-
 	class rational
 	{
 	private:

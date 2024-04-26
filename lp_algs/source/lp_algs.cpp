@@ -139,8 +139,6 @@ namespace obv
 
             column = 0;
             row = -1;
-
-            std::cin.get();
         }
 
         table.removeBottomRow();
