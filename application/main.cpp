@@ -12,13 +12,16 @@ int main(int argc, char *argv[])
     obv::Table table;
     
     table.readFile("./test.txt");
-    obv::lpalgs::simplexMethod(table);
-    obv::lpalgs::cuttingPlane(table);
-    std::cout << table << "\n\n";
+    std::cout << table << "\n----table\n\n";
+    obv::lpalgs::integerCuttingPlane(table);
+    std::cout << table << "\n----intGomory\n\n";
 
     table.readFile("./test.txt");
-    obv::lpalgs::integerCuttingPlane(table);
-    std::cout << table << "\n\n";
+    obv::lpalgs::simplexMethod(table);
+    std::cout << table << "\n----simplex\n\n";
+    obv::lpalgs::cuttingPlane(table, true);
+    std::cout << table << "\n----Gomory\n\n";
+
 
     std::cout << "press ENTER for exit";
     std::cin.get();

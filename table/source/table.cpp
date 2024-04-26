@@ -15,6 +15,20 @@ namespace obv
         data = new rational[_rows * _columns]{};
     }
 
+    Table::Table(const Table& table)
+    {
+        this->_rows = table._rows; 
+        this->_columns = table._columns;
+
+        size_t size = _rows * _columns;
+        data = new rational[size]{};
+
+        for (int i = 0; i < size; ++i)
+        {
+            data[i] = table.data[i];
+        }
+    }
+
     Table::~Table()
     {
         delete[] data;

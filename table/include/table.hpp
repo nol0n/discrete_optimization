@@ -22,6 +22,7 @@ namespace obv
 
         Table();
         Table(size_t, size_t);
+        Table(const Table &);
         ~Table();
 
         size_t getRows() const;
