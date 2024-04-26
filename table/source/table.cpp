@@ -252,11 +252,11 @@ namespace obv
     {
         size_t columns = table.getColumns();
 
-        obv::rational tmp = 0;
+        obv::rational tmp = 1; // это значение не может быть положительным
         for (size_t j = 1; j < columns; ++j)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(row, j) > obv::rational(0) && ((table(0, j) / table(row, j)) > tmp || tmp == obv::rational(0)))
+            if (table(row, j) > obv::rational(0) && ((table(0, j) / table(row, j)) > tmp || tmp == obv::rational(1)))
             {
                 column = j;
                 tmp = table(0, j) / table(row, j);
@@ -268,11 +268,11 @@ namespace obv
     {
         size_t rows = table.getRows();
 
-        obv::rational tmp = 0;
+        obv::rational tmp = 1; // это значение не может быть положительным
         for (size_t i = 1; i < rows; ++i)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(0)))
+            if (table(i, column) < obv::rational(0) && ((table(i, 0) / table(i, column)) > tmp || tmp == obv::rational(1)))
             {
                 row = i;
                 tmp = table(i, 0) / table(i, column);
