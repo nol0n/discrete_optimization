@@ -18,10 +18,14 @@ namespace obv
         int row = -1;
 
         if (debug)
-            std::cout << table << "\n\n";
+            std::cout << "--- Simplex method --- \n\n";
 
         while (true)
         {
+            // вывод таблицы в начале итерации
+            if (debug)
+                std::cout << table << "\n";
+
             // проходим по первой строке в поиске положительных значений
             Table::findPositiveValueInRow(table, 0, column);
 
@@ -45,8 +49,13 @@ namespace obv
             }
 
             table.rowZeroing(row, column);
-            if (debug)
-                std::cout << table << "\n\n";
+
+            // вывод таблицы после получения нового баазиса
+            if (debug) 
+            {
+                std::cout << "column: " << column + 1 << " row: " << row + 1 << "\n\n";
+                std::cin.get();
+            }
 
             column = -1;
             row = -1;
@@ -64,7 +73,7 @@ namespace obv
         int row = -1;
 
         if (debug)
-            std::cout << table << "\n\n";
+            std::cout << "--- Dual Simplex method --- \n\n";
 
         while (true)
         {
@@ -78,6 +87,10 @@ namespace obv
                 return 1;
             }
 
+            // печать таблицы в начале итерации
+            if (debug)
+                std::cout << table << "\n";
+
             // если мы нашли отрицательное значение, то необхожимо преобразовать таблицу
 
             // найдем элемент в строке, который будет иметь мин. отношени, при этом сам будет
@@ -90,9 +103,12 @@ namespace obv
                 return 0;
             }
 
+            // после получения нового базиса
             table.rowZeroing(row, column);
-            if (debug)
-                std::cout << table << "\n\n";
+            if (debug) {
+                std::cout << "row: " << row + 1 << " column: " << column + 1 << "\n\n";
+                std::cin.get();
+            }
 
             column = -1;
             row = -1;
@@ -104,9 +120,6 @@ namespace obv
     /// @return 1 - найдено целочисленное решение
     int lpalgs::cuttingPlane(Table &table, bool debug)
     {
-        if (debug)
-            std::cout << table << "\n\n";
-
         // добавляем строку для записи отсечений
         table.addBottomRow();
         size_t rows = table.getRows();
@@ -114,9 +127,17 @@ namespace obv
         int column = 0;
         int row = -1;
 
+        if (debug)
+            std::cout << "--- Cutting plane method --- \n\n";
+
         while (true)
         {
+            // печать таблицы в начале итерации
+            if (debug)
+                std::cout << table << "\n";
+
             // проходим первый столбец в поиске дробных значений
+            // ! берем c наибольшой дробной частью !
             Table::findNonIntegerInColumn(table, 0, row);
 
             // нет дробных значений => найдено целочисленное решение
@@ -130,14 +151,22 @@ namespace obv
             // составляем и записываем отсечение
             Table::createCut(table, row);
 
+            // информация об отсечении
             if (debug) {
-                std::cout << table << "\n\n";
+                std::cout << "added cut from row " << row + 1 << "\n\n";
                 std::cin.get();
             }
 
             // введённое отсечение нарушает допустимость таблицы
             // применяем двойсвтенный симплекс метод
-            dualSimplexMethod(table, debug);
+            if (dualSimplexMethod(table, debug) == 0) 
+            {
+                // оптимального решения не существует
+                return 0;
+            }
+
+            if (debug)
+                std::cout << "--- Cutting plane method --- \n\n";
 
             column = 0;
             row = -1;
@@ -157,10 +186,14 @@ namespace obv
         int column = -1;
         int row = -1;
 
-        if (debug)
-            std::cout << table << "\n\n";
         
         while (true) {
+            // печать в начале итерации
+            if (debug) {
+                std::cout << table << "\n";
+                std::cin.get();
+            }
+
             // проходим по первой строке в поиске положительных значений
             Table::findPositiveValueInRow(table, 0, column);
 
@@ -190,8 +223,12 @@ namespace obv
             // составим отсечение
             Table::createCutInteger(table, row, column);
 
-            if (debug)
-                std::cout << table << "\n\n";
+            // информация об отсечении
+            if (debug) {
+                std::cout << "added cut from row: " << row + 1 << 
+                " column: " << column + 1 << "\n\n";
+                std::cout << table << "\n";
+            }
 
             table.rowZeroing(rows - 1, column);
 

@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
 {    
     // создание матриц 
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 10'000; ++i)
     {
-        obv::Table table_ref = generateTable(3, 3);
+        obv::Table table_ref = generateTable(2, 3);
         obv::Table table_1 = table_ref;
         obv::Table table_2 = table_ref;
 

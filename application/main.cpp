@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     std::cout << "\n-- intGomory result --\n" << table << "\n\n";
 
     table.readFile("./test.txt");
-    obv::lpalgs::simplexMethod(table);
-    obv::lpalgs::cuttingPlane(table);
+    obv::lpalgs::simplexMethod(table, true);
+    obv::lpalgs::cuttingPlane(table, true);
     std::cout << "\n-- Gomory result --\n" << table << "\n\n";
 
     std::cout << "press ENTER for exit";
