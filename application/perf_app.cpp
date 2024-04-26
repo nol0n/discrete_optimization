@@ -48,21 +48,26 @@ int main(int argc, char *argv[])
 {    
     // создание матриц 
 
-    for (int i = 0; i < 10'000; ++i)
+    for (int i = 0; i < 100; ++i)
     {
-        obv::Table table_1 = generateTable(2, 1);
-        obv::Table table_2 = table_1;
+        obv::Table table_ref = generateTable(3, 3);
+        obv::Table table_1 = table_ref;
+        obv::Table table_2 = table_ref;
 
-        std::cout << "-- table --\n" << table_1 << "\n";
+        std::cout << "-- table --\n" << table_ref << "\n";
 
-        obv::lpalgs::integerCuttingPlane(table_2);
+        obv::lpalgs::integerCuttingPlane(table_1);
+        std::cout << table_1(0, 0) << " | ";
 
-        std::cout << table_2(0, 0) << " | ";
-
-        obv::lpalgs::simplexMethod(table_1);
-        obv::lpalgs::cuttingPlane(table_1);
-
+        obv::lpalgs::simplexMethod(table_2);
+        obv::lpalgs::cuttingPlane(table_2);
         std::cout << table_1(0, 0) << "\n\n";
+
+        // if (table_1(0, 0) != table_2(0, 0))
+        // {
+        //     std::cout << "-- table --\n" << table_ref << "\n";
+        //     std::cout << table_1(0, 0) << " | " << table_2(0, 0) << "\n\n";
+        // }
     }
 
     // obv::Perf collector{};
