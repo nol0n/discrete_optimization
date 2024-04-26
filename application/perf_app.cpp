@@ -48,12 +48,12 @@ int main(int argc, char *argv[])
 {    
     // создание матриц 
 
-    for (int i = 0; i < 100000; ++i)
+    for (int i = 0; i < 10'000; ++i)
     {
         obv::Table table_1 = generateTable(2, 1);
         obv::Table table_2 = table_1;
 
-        std::cout << "----table1\n" << table_1 << "\n\n";
+        std::cout << "-- table --\n" << table_1 << "\n";
 
         obv::lpalgs::integerCuttingPlane(table_2);
 

@@ -130,8 +130,10 @@ namespace obv
             // составляем и записываем отсечение
             Table::createCut(table, row);
 
-            if (debug)
+            if (debug) {
                 std::cout << table << "\n\n";
+                std::cin.get();
+            }
 
             // введённое отсечение нарушает допустимость таблицы
             // применяем двойсвтенный симплекс метод
@@ -140,7 +142,6 @@ namespace obv
             column = 0;
             row = -1;
 
-            std::cin.get();
         }
 
         table.removeBottomRow();

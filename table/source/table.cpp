@@ -85,12 +85,13 @@ namespace obv
 
         if (!task)
         {
-            std::cerr << "table::can't open file\n\n";
+            std::cerr << "table::can't open file\n";
             return 1;
         }
         else
         {
-            std::cout << "table::file opened\n\n";
+            if (debug)
+                std::cout << "table::file opened\n";
         }
 
         // установка размерности целевой функции и кол-ва ограничений
@@ -234,7 +235,9 @@ namespace obv
 
     void Table::findNonIntegerInColumn(const obv::Table &table, const int &column, int &row)
     {
+        // будем брать число с максмиальной дробной частью
         size_t rows = table.getRows();
+        size_t max_row = -1;
 
         for (int i = 0; i < rows - 1; ++i)
         {
@@ -242,8 +245,11 @@ namespace obv
             // его строки, иначе индекс будет равен -1
             if (!table(i, column).isInteger())
             {
-                row = i;
-                break;
+                if (max_row == -1 || table(max_row, column).fractional() < table(i, column).fractional())
+                {
+                    max_row = i;
+                    row = i;
+                }
             }
         }
     }
