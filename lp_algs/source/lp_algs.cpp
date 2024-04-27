@@ -27,7 +27,10 @@ namespace obv
                 std::cout << table << "\n";
 
             // проходим по первой строке в поиске положительных значений
-            Table::findPositiveValueInRow(table, 0, column);
+            // берем ! НАИБОЛЬШЕЕ ! (пока еще нет (уже да))
+            // Table::findPositiveValueInRow(table, 0, column);
+            Table::findMaxPositiveValueInRow(table, 0, column);
+
 
             // не было найдено положительного значения
             // в первом столбце => мы нашли оптимальное решение
@@ -137,8 +140,8 @@ namespace obv
                 std::cout << table << "\n";
 
             // проходим первый столбец в поиске дробных значений
-            // ! берем c наибольшой дробной частью !
-            Table::findNonIntegerInColumn(table, 0, row);
+            // берем c ! НАИБОЛЬШЕЙ ! дробной частью
+            Table::findNonIntegerInColumnWithMaxFractional(table, 0, row);
 
             // нет дробных значений => найдено целочисленное решение
             if (row == -1)

@@ -38,8 +38,10 @@ namespace obv
         void changeColumns(size_t, size_t, int, sign = PLUS);
 
         static void findPositiveValueInRow(const obv::Table &, const int &, int &);
+        static void findMaxPositiveValueInRow(const obv::Table &, const int &, int &);
         static void findNegativeValueInColumn(const obv::Table &, const int &, int &);
         static void findNonIntegerInColumn(const obv::Table &, const int &, int &);
+        static void findNonIntegerInColumnWithMaxFractional(const obv::Table &, const int &, int &); 
         static void findMinmumRelationInRow(const obv::Table &, const int &, int &);
         static void findMinmumRelationInColumn(const obv::Table &, const int &, int &);
         static void createCut(obv::Table &, const int &);

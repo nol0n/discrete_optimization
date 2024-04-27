@@ -198,7 +198,7 @@ namespace obv
         }
     }
 
-    void Table::findPositiveValueInRow(const obv::Table &table, const int& row, int &column)
+    void Table::findPositiveValueInRow(const obv::Table &table, const int &row, int &column)
     {
         size_t columns = table.getColumns();
 
@@ -207,10 +207,26 @@ namespace obv
             // если нашли положительный коэффициент, то запоминаем индекс
             // его столбца, иначе индекс будет равен -1 (входное значение
             // column не изменится)
-            if (table(row, j) > obv::rational(0))
+            if (table(row, j) > obv::rational(0)) // ????? >= 0
             {
                 column = j;
                 break;
+            }
+        }
+    }
+
+    void Table::findMaxPositiveValueInRow(const obv::Table &table, const int &row, int &column)
+    {
+        size_t columns = table.getColumns();
+
+        for (int j = 1; j < columns; ++j)
+        {
+            // если нашли положительный коэффициент, то сотрим нет ли ещё положительных значений
+            // если нет, то запоминаем, если есть смотрим, чтобы он значние в таблице было больше,
+            // чем у прошлого, иначе индекс будет равен -1 (входное значение column не изменится)
+            if (table(row, j) > obv::rational(0) && (column == -1 || table(row, j) > table(row, column))) // ????? >= 0
+            {
+                column = j;
             }
         }
     }
@@ -239,12 +255,31 @@ namespace obv
         size_t rows = table.getRows();
         size_t max_row = -1;
 
-        for (int i = 0; i < rows - 1; ++i)
+        for (int i = 1; i < rows - 1; ++i)
         {
             // если нашли добрное значение, то запоминаем индекс
             // его строки, иначе индекс будет равен -1
             if (!table(i, column).isInteger())
             {
+                row = i;
+                break;
+            }
+        }
+    }
+
+    void Table::findNonIntegerInColumnWithMaxFractional(const obv::Table &table, const int &column, int &row)
+    {
+        // будем брать число с максмиальной дробной частью
+        size_t rows = table.getRows();
+        size_t max_row = -1;
+
+        for (int i = 1; i < rows - 1; ++i)
+        {
+            // если нашли добрное значение, то
+            // (если не найдем, то тогда будет row = -1)
+            if (!table(i, column).isInteger())
+            {
+                // смотрим не было ли дробных, если были, то смотрим, чтобы тробная часть была больше
                 if (max_row == -1 || table(max_row, column).fractional() < table(i, column).fractional())
                 {
                     max_row = i;
