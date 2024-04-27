@@ -28,8 +28,8 @@ namespace obv
 
             // проходим по первой строке в поиске положительных значений
             // берем ! НАИБОЛЬШЕЕ ! (пока еще нет (уже да))
-            // Table::findPositiveValueInRow(table, 0, column);
-            Table::findMaxPositiveValueInRow(table, 0, column);
+            Table::findPositiveValueInRow(table, 0, column);
+            // Table::findMaxPositiveValueInRow(table, 0, column);
 
 
             // не было найдено положительного значения
@@ -80,8 +80,9 @@ namespace obv
 
         while (true)
         {
-            // проходим по первому столбцу в поиске отрицательных значений
+            // проходим по первому столбцу в поиске отрицательных значений (каких?)
             Table::findNegativeValueInColumn(table, 0, row);
+            // Table::findMaxNegativeValueInColumn(table, 0, row);
 
             // не было найдено отрицательного значения
             // в первом столбце => мы нашли оптимальное решение
@@ -139,9 +140,11 @@ namespace obv
             if (debug)
                 std::cout << table << "\n";
 
-            // проходим первый столбец в поиске дробных значений
-            // берем c ! НАИБОЛЬШЕЙ ! дробной частью
-            Table::findNonIntegerInColumnWithMaxFractional(table, 0, row);
+        // проходим первый столбец в поиске дробных значений
+        // берем c ! НАИБОЛЬШЕЙ ! дробной частью
+            // Table::findNonIntegerInColumnWithMaxFractional(table, 0, row);
+        // или необязатлеьно, я не знаю...
+            Table::findNonIntegerInColumn(table, 0, row);
 
             // нет дробных значений => найдено целочисленное решение
             if (row == -1)
@@ -189,15 +192,38 @@ namespace obv
         int column = -1;
         int row = -1;
 
+        if (debug)
+        {
+            std::cout << "--- Integer Cutting plane method --- \n\n";
+            std::cout << table << "\n";
+        }
         
-        while (true) {
-            // печать в начале итерации
-            if (debug) {
-                std::cout << table << "\n";
-                std::cin.get();
-            }
+        // test :)
+        // int iters = table.getColumns() * 1;
+        // int num = 1;
 
-            // проходим по первой строке в поиске положительных значений
+        // while (true) {
+        //     // test
+        //     iters--;
+        //     if (iters == 0)
+        //     {
+        //         iters = table.getColumns() * 1;
+        //         num *= -1;
+        //     }
+
+        //     // проходим по первой строке в поиске положительных значений
+        //     if (num == 1)
+        //     {
+        //         Table::findMaxPositiveValueInRow(table, 0, column);
+        //     }
+        //     else 
+        //     {
+        //         Table::findPositiveValueInRow(table, 0, column);
+        //     }
+
+        while (true) {
+            // проходим по первой строке в поиске положительных значений (каких-то...)
+            // Table::findMaxPositiveValueInRow(table, 0, column);
             Table::findPositiveValueInRow(table, 0, column);
 
             // не было найдено положительного значения
@@ -228,12 +254,19 @@ namespace obv
 
             // информация об отсечении
             if (debug) {
-                std::cout << "added cut from row: " << row + 1 << 
+                std::cout << "cut from row: " << row + 1 << 
                 " column: " << column + 1 << "\n\n";
                 std::cout << table << "\n";
+                std::cin.get();
             }
 
             table.rowZeroing(rows - 1, column);
+
+            if (debug) {
+                std::cout << "changed table: \n\n";
+                std::cout << table << "\n";
+                std::cin.get();
+            }
 
             column = -1;
             row = -1;

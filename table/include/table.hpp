@@ -40,6 +40,7 @@ namespace obv
         static void findPositiveValueInRow(const obv::Table &, const int &, int &);
         static void findMaxPositiveValueInRow(const obv::Table &, const int &, int &);
         static void findNegativeValueInColumn(const obv::Table &, const int &, int &);
+        static void findMaxNegativeValueInColumn(const obv::Table &, const int &, int &);
         static void findNonIntegerInColumn(const obv::Table &, const int &, int &);
         static void findNonIntegerInColumnWithMaxFractional(const obv::Table &, const int &, int &); 
         static void findMinmumRelationInRow(const obv::Table &, const int &, int &);

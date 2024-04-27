@@ -55,21 +55,21 @@ int main(int argc, char *argv[])
 
     for (int i = 0; i < iters; ++i)
     {
-        if (i % step == 0)
-            std::cout << i / step * percent << " ";
+        // if (i % step == 0)
+        //   std::cout << i / step * percent << " ";
 
         obv::Table table_ref = generateTable(3, 3);
         obv::Table table_1 = table_ref;
         obv::Table table_2 = table_ref;
 
-        // std::cout << "-- table --\n" << table_ref << "\n";
+        std::cout << "-- table --\n" << table_ref << "\n";
 
-        obv::lpalgs::integerCuttingPlane(table_1);
-        // std::cout << table_1(0, 0) << " | ";
+        // obv::lpalgs::integerCuttingPlane(table_1);
+        // std::cout << table_1(0, 0) << " | \n";
 
         obv::lpalgs::simplexMethod(table_2);
         obv::lpalgs::cuttingPlane(table_2);
-        // std::cout << table_1(0, 0) << "\n\n";
+        std::cout << table_1(0, 0) << "\n\n";
 
         // if (table_1(0, 0) != table_2(0, 0))
         // {

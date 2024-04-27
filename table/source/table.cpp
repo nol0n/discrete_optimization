@@ -207,7 +207,7 @@ namespace obv
             // если нашли положительный коэффициент, то запоминаем индекс
             // его столбца, иначе индекс будет равен -1 (входное значение
             // column не изменится)
-            if (table(row, j) > obv::rational(0)) // ????? >= 0
+            if (table(row, j) > obv::rational(0))
             {
                 column = j;
                 break;
@@ -224,7 +224,7 @@ namespace obv
             // если нашли положительный коэффициент, то сотрим нет ли ещё положительных значений
             // если нет, то запоминаем, если есть смотрим, чтобы он значние в таблице было больше,
             // чем у прошлого, иначе индекс будет равен -1 (входное значение column не изменится)
-            if (table(row, j) > obv::rational(0) && (column == -1 || table(row, j) > table(row, column))) // ????? >= 0
+            if (table(row, j) > obv::rational(0) && (column == -1 || table(row, j) > table(row, column)))
             {
                 column = j;
             }
@@ -244,6 +244,22 @@ namespace obv
             {
                 row = i;
                 break;
+            }
+        }
+    }
+
+    void Table::findMaxNegativeValueInColumn(const obv::Table &table, const int &column, int &row)
+    {
+        size_t rows = table.getRows();
+
+        for (int i = 1; i < rows; ++i)
+        {
+            // если нашли отрицательный коэффициент, то смотрим нет ли ещё отрицательных значений
+            // если нет, то запоминаем, если есть смотрим, чтобы он значние в таблице было меньше,
+            // чем у прошлого, иначе индекс будет равен -1 (входное значение row не изменится)
+            if (table(i, column) < obv::rational(0) && (row == -1 || table(i, column) < table(row, column)))
+            {
+                row = i;
             }
         }
     }
@@ -320,6 +336,26 @@ namespace obv
             }
         }
     }
+
+    // void Table::findMinmumRelationInColumn(const obv::Table &table, const int &column, int &row)
+    // {
+    //     size_t rows = table.getRows();
+
+    //     obv::rational tmp = 1; // это значение не может быть положительным
+    //     for (size_t i = 1; i < rows; ++i)
+    //     {
+    //         // берется наименьшее отношение, если будет несколько равных, будет взято первое
+    //         if (table(i, column) < obv::rational(0))
+    //         {
+    //             obv::rational ratio = table(i, 0) / table(i, column);
+    //             if ((ratio > tmp && ratio < 0) || tmp == obv::rational(1))
+    //             {
+    //                 row = i;
+    //                 tmp = ratio;
+    //             }
+    //         }
+    //     }
+    // }
 
     void Table::createCut(obv::Table &table, const int &row) 
     {
