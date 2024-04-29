@@ -198,7 +198,7 @@ namespace obv
         }
     }
 
-    void Table::findPositiveValueInRow(const obv::Table &table, const int &row, int &column)
+    void Table::findFirstPositiveValueInRow(const obv::Table &table, const int &row, int &column)
     {
         size_t columns = table.getColumns();
 
@@ -231,7 +231,7 @@ namespace obv
         }
     }
     
-    void Table::findNegativeValueInColumn(const obv::Table &table, const int & column, int &row)
+    void Table::findFirstNegativeValueInColumn(const obv::Table &table, const int & column, int &row)
     {
         size_t rows = table.getRows();
 
@@ -265,7 +265,7 @@ namespace obv
     }
 
 
-    void Table::findNonIntegerInColumn(const obv::Table &table, const int &column, int &row)
+    void Table::findFirstNonIntegerInColumn(const obv::Table &table, const int &column, int &row)
     {
         // будем брать число с максмиальной дробной частью
         size_t rows = table.getRows();

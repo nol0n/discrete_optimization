@@ -2,7 +2,7 @@
 
 #include <rational.hpp>
 #include <table.hpp>
-#include <lp_algs.hpp>
+#include <lp_algs_dev.hpp>
 #include <perf.hpp>
 
 obv::Table generateTable (const int& variables, const int& constraints)

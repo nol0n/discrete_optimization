@@ -11,10 +11,10 @@ namespace obv
     {
     private:
     public:
-        static int simplexMethod(Table &, bool = false);
-        static int dualSimplexMethod(Table &, bool = false);
-        static int cuttingPlane(Table &, bool = false);
-        static int integerCuttingPlane(Table &, bool = false);
+        static int simplexMethod(Table &);
+        static int dualSimplexMethod(Table &);
+        static int cuttingPlane(Table &);
+        static int integerCuttingPlane(Table &);
     };
 
 } // namespace nol0n

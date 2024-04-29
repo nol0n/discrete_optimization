@@ -27,6 +27,7 @@ target_link_libraries(perf_app PRIVATE
 	rational_numbers
 	table
 	lp_algs
+	lp_algs_dev
 	perfomance_collector
 )
 
@@ -38,6 +39,7 @@ target_link_libraries(lp_app PRIVATE
 	rational_numbers
 	table
 	lp_algs
+	lp_algs_dev
 )
 
 configure_file(${CMAKE_SOURCE_DIR}/resources/test.txt ${CMAKE_CURRENT_BINARY_DIR}/test.txt COPYONLY)

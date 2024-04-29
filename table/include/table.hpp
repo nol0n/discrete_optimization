@@ -37,11 +37,11 @@ namespace obv
         void rowZeroing(size_t, size_t);
         void changeColumns(size_t, size_t, int, sign = PLUS);
 
-        static void findPositiveValueInRow(const obv::Table &, const int &, int &);
+        static void findFirstPositiveValueInRow(const obv::Table &, const int &, int &);
         static void findMaxPositiveValueInRow(const obv::Table &, const int &, int &);
-        static void findNegativeValueInColumn(const obv::Table &, const int &, int &);
+        static void findFirstNegativeValueInColumn(const obv::Table &, const int &, int &);
         static void findMaxNegativeValueInColumn(const obv::Table &, const int &, int &);
-        static void findNonIntegerInColumn(const obv::Table &, const int &, int &);
+        static void findFirstNonIntegerInColumn(const obv::Table &, const int &, int &);
         static void findNonIntegerInColumnWithMaxFractional(const obv::Table &, const int &, int &); 
         static void findMinmumRelationInRow(const obv::Table &, const int &, int &);
         static void findMinmumRelationInColumn(const obv::Table &, const int &, int &);
