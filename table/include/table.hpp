@@ -1,7 +1,9 @@
 #pragma once
 
-#include <rational.hpp>
 #include <iostream>
+#include <vector>
+
+#include <rational.hpp>
 
 namespace obv
 {
@@ -9,7 +11,7 @@ namespace obv
     class Table
     {
     private:
-        rational *data;
+        std::vector<rational> _data;
         size_t _rows;
         size_t _columns;
 

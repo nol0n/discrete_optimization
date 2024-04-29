@@ -7,31 +7,20 @@ namespace obv
 
     Table::Table() : _rows(0), _columns(0)
     {
-        data = nullptr;
+        _data = std::vector<rational>{};
     }
 
     Table::Table(size_t rows, size_t columns) : _rows(rows), _columns(columns)
     {
-        data = new rational[_rows * _columns]{};
+        _data = std::vector<rational>{};
+        _data.reserve(rows * columns);
     }
 
-    Table::Table(const Table& table)
-    {
-        this->_rows = table._rows; 
-        this->_columns = table._columns;
-
-        size_t size = _rows * _columns;
-        data = new rational[size]{};
-
-        for (int i = 0; i < size; ++i)
-        {
-            data[i] = table.data[i];
-        }
-    }
+    Table::Table(const Table& table) : _rows(table._rows), _columns(table._columns), _data(table._data) {}
 
     Table::~Table()
     {
-        delete[] data;
+        _data.clear();
     }
 
     size_t Table::getRows() const
@@ -45,35 +34,15 @@ namespace obv
     }
 
     void Table::addBottomRow() {
-        rational* newData = new rational[(_rows + 1) * _columns]{};
-
-        for (size_t i = 0; i < _rows; ++i) {
-            for (size_t j = 0; j < _columns ; ++j) {
-                    newData[(i * _columns) + j] = (*this)(i, j);
-            }
-        }
-
-        delete[] data;
-
-        data = newData;
+        _data.resize(_data.size() + _columns);
         _rows++;
     }
     
     void Table::removeBottomRow() {
         if (_rows == 1) return;
 
-        rational* newData = new rational[(_rows - 1) * _columns]{};
+        _data.resize(_data.size() - _columns);
         _rows--;
-
-        for (size_t i = 0; i < _rows; ++i) {
-            for (size_t j = 0; j < _columns ; ++j) {
-                newData[(i * _columns) + j] = (*this)(i, j);
-            }
-        }
-
-        delete[] data; 
-
-        data = newData;
     }
 
     int Table::readFile(const char path_to_file[], bool debug)
@@ -99,11 +68,11 @@ namespace obv
         _columns = variables + 1;
         _rows = variables + constraints + 1;
 
-        if (data != nullptr)
+        if (_data.size() > 0)
         {
-            delete[] data;
+            _data.clear();
         }
-        data = new rational[_rows * _columns]{};
+        _data = std::vector<rational>(_rows * _columns, 0);
 
         // запись целеовой функции
         for (int j = 1; j < _columns; ++j)
@@ -138,7 +107,7 @@ namespace obv
     void Table::columnZeroing(size_t row, size_t column)
     {
         column--;
-        rational value = data[row * _columns + column];
+        rational value = _data[row * _columns + column];
 
         for (size_t j = 0; j < _columns; ++j)
         {
@@ -160,7 +129,7 @@ namespace obv
 
     void Table::rowZeroing(size_t row, size_t column)
     {
-        rational value = data[row * _columns + column];
+        rational value = _data[row * _columns + column];
 
         for (size_t i = 0; i < _rows; ++i)
         {
@@ -388,12 +357,12 @@ namespace obv
 
     rational &Table::operator()(size_t row, size_t column)
     {
-        return data[row * _columns + column];
+        return _data[row * _columns + column];
     }
 
     const rational Table::operator()(size_t row, size_t column) const
     {
-        return data[row * _columns + column];
+        return _data[row * _columns + column];
     }
 
     std::ostream &operator<<(std::ostream &outs, const Table &table)
