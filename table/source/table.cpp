@@ -7,7 +7,7 @@ namespace obv
 
     Table::Table() : _rows(0), _columns(0)
     {
-        _data = std::vector<rational>{};
+        _data = std::vector<rational>(1, 0);
     }
 
     Table::Table(size_t rows, size_t columns) : _rows(rows), _columns(columns)
