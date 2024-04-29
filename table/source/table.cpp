@@ -12,8 +12,7 @@ namespace obv
 
     Table::Table(size_t rows, size_t columns) : _rows(rows), _columns(columns)
     {
-        _data = std::vector<rational>{};
-        _data.reserve(rows * columns);
+        _data = std::vector<rational>(_columns * _rows, 0);    
     }
 
     Table::Table(const Table& table) : _rows(table._rows), _columns(table._columns), _data(table._data) {}

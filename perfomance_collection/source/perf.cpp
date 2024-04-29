@@ -11,11 +11,14 @@ namespace obv
 
     Perf::Perf() : startTime(0) { }
 
+    /// @brief начинает отсчет, устанваливая значение внутреннего поля равное текущему времени
     void Perf::startTimer() 
     {
         startTime = getCurrentTime();
     }
 
+    /// @brief завершает замер времени
+    /// @return возвращает разницу меджу началом отсчета и текущим временем
     long long Perf::stopTimer()
     {
         long long time = getCurrentTime() - startTime;
@@ -24,6 +27,9 @@ namespace obv
         return time;
     }
 
+    /// @brief запоминает результат во внутренний массив пар <значение, время>
+    /// @param size значение замера
+    /// @param time время
     void Perf::addSample(int size, long long time)
     {
         std::pair<int, double> sample{};
@@ -34,6 +40,9 @@ namespace obv
         samples.push_back(sample);
     }
 
+    /// @brief записывает результат в файл парами "значение время"
+    /// @param path_to_file 
+    /// @return 1 - не удалось записать результат 0 - результат записан
     int Perf::saveResult(const char path_to_file[])
     {
         std::fstream output(path_to_file, std::ios::out);
@@ -60,6 +69,8 @@ namespace obv
         return 0;
     }
 
+    /// @brief
+    /// @return текущее вермя в виде long long 
     long long Perf::getCurrentTime()
     {
         auto now = std::chrono::high_resolution_clock().now();
@@ -68,16 +79,22 @@ namespace obv
         return nowMS.time_since_epoch().count();
     }
 
-    int* Perf::getInt(const int & min, const int & max, const int &count) 
+    /// @brief получить случайные целочсиленные значения в заданном диапазоне
+    /// @param min 
+    /// @param max 
+    /// @param count кол-во значений 
+    /// @return std::vec заполенный числами
+    std::vector<int> Perf::getInt(const int & min, const int & max, const int &count) 
     {
         std::random_device dev{};
         std::mt19937 rng(dev());
         std::uniform_int_distribution<std::mt19937::result_type> dist(min, max);
 
-        int* values = new int[count];
+        std::vector<int> values;
+        values.reserve(count);
         for (int i = 0; i < count; ++i)
         {
-            values[i] = dist(rng);
+            values.push_back(dist(rng));
         }
 
         return values;
