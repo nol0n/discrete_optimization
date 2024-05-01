@@ -2,19 +2,19 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(table)
 
-set(SRC 
-	./source/table.cpp
+set(SOURCES 
+	sources/table.cpp
 )
 
 set(HEADERS 
-	./include/table.hpp
+	headers/table.hpp
 )
 
 add_library(table
-	${SRC}
+	${SOURCES}
 	${HEADERS}
 )
 
-target_link_libraries(table 
-	PRIVATE	rational_numbers
+target_link_libraries(table PRIVATE
+	rational_numbers
 )

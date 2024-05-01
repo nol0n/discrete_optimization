@@ -2,19 +2,19 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(rational_numbers)
 
-set(SRC 
-	./source/rational.cpp
+set(SOURCES 
+	sources/rational.cpp
 )
 
 set(HEADERS 
-	./include/rational.hpp
+	headers/rational.hpp
 )
 
 add_library(rational_numbers
-	${SRC}
+	${SOURCES}
 	${HEADERS}
 )
 
-target_link_libraries(rational_numbers
-	PRIVATE BigInt
+target_link_libraries(rational_numbers PRIVATE 
+	BigInt
 )
