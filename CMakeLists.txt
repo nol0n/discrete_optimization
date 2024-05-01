@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(LinearProgrammingAlgs)
 
 include_directories(
-	external/BigInt/include
+	external/BigInt/headers
 	rational_numbers/headers
 	table/headers
 	lp_algs/headers
