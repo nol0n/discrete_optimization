@@ -6,16 +6,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(LinearProgrammingAlgs)
 
 include_directories(
-	./external/BigInt/include
-	./rational_numbers/include
-	./table/include
-	./lp_algs/include
-	./lp_algs_dev/include
-	./perfomance_collection/include
+	external/BigInt/headers
+	rational_numbers/headers
+	table/headers
+	lp_algs/headers
+	lp_algs_dev/headers
+	perfomance_collection/headers
 )
 
 add_subdirectory(
-	./external/BigInt
+	external/BigInt
 )
 
 add_subdirectory(

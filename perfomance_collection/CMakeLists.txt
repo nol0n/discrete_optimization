@@ -4,19 +4,19 @@ cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(perfomance_collection)
 
-set(SRC 
-	./source/perf.cpp
+set(SOURCES 
+	sources/perf.cpp
 )
 
 set(HEADERS
-	./include/perf.hpp
+	headers/perf.hpp
 ) 
 
 add_library(perfomance_collector
-	${SRC}
+	${SOURCES}
 	${HEADERS}
 )
 
-target_link_libraries(perfomance_collector
+target_link_libraries(perfomance_collector PRIVATE
 	table
 )
