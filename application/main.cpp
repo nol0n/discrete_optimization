@@ -23,11 +23,17 @@ int main(int argc, char *argv[])
 
     // lp_algs_dev with some debug output
 
-    table.readFile("./test.txt");
-    obv::lpalgs_dev::integerCuttingPlane(table, true);
+    // table.readFile("./test.txt");
+    // obv::lpalgs_dev::integerCuttingPlane(table, true);
 
     table.readFile("./test.txt");
-    obv::lpalgs_dev::simplexMethod(table, true);
+    obv::lpalgs_dev::simplexMethod(table);
+    
+    for (int j = 0; j < table.getColumns(); ++j)
+    {
+        table(0, j) *= -1;
+    }
+
     obv::lpalgs_dev::cuttingPlane(table, true);
 
     std::cout << "press ENTER for exit";

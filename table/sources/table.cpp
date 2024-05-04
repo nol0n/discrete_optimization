@@ -239,7 +239,7 @@ namespace obv
         size_t rows = table.getRows();
         size_t max_row = -1;
 
-        for (int i = 1; i < rows - 1; ++i)
+        for (int i = 0; i < rows - 1; ++i)
         {
             // если нашли добрное значение, то запоминаем индекс
             // его строки, иначе индекс будет равен -1
@@ -273,18 +273,58 @@ namespace obv
         }
     }
 
+    size_t find_index(size_t column, const obv::Table &table)
+    {
+        int ans = -1;
+        
+        int basic_count = 0;
+        int var_index = 0;
+        for (int i = 1; i < table.getRows(); ++i)
+        {
+            basic_count = 0;
+            var_index = 0;
+
+            for (int j = 0; j < table.getColumns(); ++j)
+            {   
+                if (table(i, j) != 0) 
+                {
+                    var_index = j;
+                    basic_count += 1;
+                }
+            }
+            
+            if (basic_count == 1 && var_index == column) 
+            {   
+                ans = i;
+                break;
+            }
+        }
+
+        return ans;
+    }
+
     void Table::findMinmumRelationInRow(const obv::Table &table, const int &row, int &column)
     {
         size_t columns = table.getColumns();
+        size_t index = 0;
 
-        obv::rational tmp = 1; // это значение не может быть положительным
+        int prev_var_index = -1;
+        int var_index = -1;
+
+        obv::rational tmp = -1; // это значение не может быть положительным
         for (size_t j = 1; j < columns; ++j)
         {
             // берется наименьшее отношение, если будет несколько равных, будет взято первое
-            if (table(row, j) > obv::rational(0) && ((table(0, j) / table(row, j)) > tmp || tmp == obv::rational(1)))
+            if (table(row, j) > obv::rational(0) && ((table(0, j) / table(row, j)) <= tmp || prev_var_index == -1))
             {
-                column = j;
-                tmp = table(0, j) / table(row, j);
+                var_index = find_index(j, table);
+
+                if ((prev_var_index == -1) || (var_index < prev_var_index && var_index != -1))
+                {
+                    prev_var_index = var_index;
+                    column = j;
+                    tmp = table(0, j) / table(row, j);
+                }
             }
         }
     }
